@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Coding Standards">
+	<description>WordPress PHP CodeSniffer ruleset.</description>
+
+	<!-- Scan all files in directory -->
+	<file>.</file>
+
+	<!-- Exclude paths -->
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/assets/*</exclude-pattern>
+	<exclude-pattern>*.js</exclude-pattern>
+	<exclude-pattern>*.css</exclude-pattern>
+
+	<!-- Show progress -->
+	<arg value="ps" />
+	<arg name="colors" />
+	<arg name="extensions" value="php" />
+
+	<!-- Rules -->
+	<rule ref="WordPress">
+		<!-- Exclude rules -->
+		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="Generic.Files.LineLength.MaxExceeded" />
+		<exclude name="Generic.Files.LineLength.TooLong" />
+		<exclude name="Generic.Functions.CallTimePassByReference" />
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax" />
+	</rule>
+
+	<!-- Allow . in hook names -->
+	<rule ref="WordPress.NamingConventions.ValidHookName">
+		<properties>
+			<property name="additionalWordDelimiters" value="." />
+		</properties>
+	</rule>
+
+	<!-- Set minimum supported WordPress version -->
+	<config name="minimum_supported_wp_version" value="5.0" />
+
+	<!-- Set text domain -->
+	<rule ref="WordPress.WP.I18n">
+		<exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain" />
+	</rule>
+
+	<!-- Set line length -->
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="120" />
+			<property name="absoluteLineLimit" value="150" />
+		</properties>
+	</rule>
+</ruleset>

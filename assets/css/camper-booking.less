@@ -1,0 +1,262 @@
+// Variables
+@softpink: #feecec;
+@green: #a8dadc;
+@black: #000000;
+@white: #ffffff;
+@gray: #808080;
+@lightgray: #d3d3d3;
+@darkgray: #a9a9a9;
+@border-color: #dee2e6;
+@accordion-bg: #f8f9fa;
+@accordion-active-bg: #e9ecef;
+@accordion-active-color: #0d6efd;
+
+// Mixins
+.flex(@align: center, @justify: center, @gap: 10px) {
+  align-items: @align;
+  display: flex;
+  gap: @gap;
+  justify-content: @justify;
+}
+
+.size(@width, @height: @width) {
+  height: @height;
+  width: @width;
+}
+
+// Base styles
+.camper-booking-form {
+  margin: 0 auto;
+  padding: 1rem;
+
+  .hidden {
+    display: none;
+  }
+
+  .camper-form {
+    &-main-wrapper {
+      .flex(flex-start, justify-content);
+      gap: 2rem;
+      padding: 1rem;
+      width: 100%;
+    }
+
+    &-steps-container {
+      flex: 0 0 60%;
+      max-width: 60%;
+    }
+
+    &-aside-container {
+      flex: 0 0 40%;
+      max-width: 40%;
+    }
+  }
+
+  &-step {
+    .camper-form-item-wrapper {
+      padding: 1rem 0;
+    }
+
+    .step-header {
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .step-number {
+        align-items: center;
+        background: @green;
+        border-radius: 100%;
+        color: @black;
+        display: inline-flex;
+        height: 35px;
+        justify-content: center;
+        width: 35px;
+      }
+    }
+  }
+
+  // Icons
+  .booking-icon {
+    display: inline-block;
+    .size(20px);
+    background-size: cover !important;
+
+    &-1 {
+      background: url(../img/icon-1.png) no-repeat center center;
+    }
+    &-2 {
+      background: url(../img/icon-2.png) no-repeat center center;
+    }
+    &-3 {
+      background: url(../img/icon-3.png) no-repeat center center;
+    }
+    &-4 {
+      background: url(../img/icon-4.png) no-repeat center center;
+    }
+  }
+
+  .form-group {
+    margin: 15px 0;
+
+    label {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: inline-block;
+
+      .required {
+        color: red;
+      }
+    }
+
+    .form-control {
+      margin: 10px 0;
+      border-radius: 8px !important;
+      border: 1px solid #bdbdbd !important;
+      background: #fbfbfb !important;
+    }
+  }
+}
+
+.btn {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+// Accordion styles
+.accordion {
+  border: 1px solid @border-color;
+  border-radius: 0.25rem;
+
+  &-item {
+    border-bottom: 1px solid @border-color;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &-header {
+    margin: 0;
+  }
+
+  &-button {
+    .flex(center, flex-start) !important;
+    border: 0 !important;
+    padding: 1rem !important;
+    width: 100% !important;
+    text-align: left;
+    background-color: @accordion-bg;
+    border: none;
+    font-weight: 500;
+
+    &:not(.collapsed) {
+      background-color: @accordion-active-bg;
+      color: @accordion-active-color;
+
+      &::after {
+        transform: rotate(-180deg);
+      }
+    }
+
+    &:focus {
+      box-shadow: none;
+      border-color: rgba(13, 110, 253, 0.25);
+    }
+
+    &::after {
+      flex-shrink: 0;
+      .size(1.25rem);
+      margin-left: auto;
+      content: "";
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-size: 1.25rem;
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+
+  &-body {
+    padding: 1rem;
+  }
+
+  &-collapse {
+    border-top: 1px solid @border-color;
+    transition: all 0.3s ease-in-out;
+
+    &.show {
+      background-color: @white !important;
+      height: auto !important ;
+      overflow: visible !important;
+    }
+  }
+
+  .collapse {
+    height: 0;
+    overflow: hidden;
+  }
+}
+
+// Removed problematic mixin
+
+// Booking steps
+.camper-booking-step-container {
+  .flex();
+  border-bottom: 1px solid @lightgray;
+  padding: 1rem 0;
+
+  .camper-booking-step-item {
+    font-size: 0.9rem;
+
+    .camper-booking-step-icon {
+      .size(30px);
+      display: inline-flex;
+      border-radius: 100%;
+      border: 3px solid @lightgray;
+      align-items: center;
+      justify-content: center;
+      margin: 0 5px;
+    }
+  }
+
+  .active {
+    .camper-booking-step-icon {
+      border-color: @green;
+    }
+  }
+}
+
+// Radio buttons
+.camper-radio-wrapper {
+  .flex(flex-start, space-between);
+  flex-wrap: wrap;
+
+  .camper-radio-item {
+    flex: 0 0 32%;
+    max-width: 32%;
+    text-align: center;
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+    overflow: hidden;
+
+    span {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 10px 0;
+      display: inline-block;
+    }
+  }
+}
+
+// Utility classes
+small {
+  &.error {
+    display: block;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
