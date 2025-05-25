@@ -14,11 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Plugin constants.
-define( 'CAMPER_BOOKING_VERSION', '1.0.0' );
-define( 'CAMPER_BOOKING_PLUGIN_NAME', 'Camper Booking' );
-define( 'CAMPER_BOOKING_TEXT_DOMAIN', 'camper-booking' );
-
 /**
  * CamperBookingShortcodes
  */
