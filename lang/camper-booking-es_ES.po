@@ -1,0 +1,125 @@
+# Copyright (C) 2023 Robert Ochoa
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Camper Booking 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/camper-booking\n"
+"POT-Creation-Date: 2023-11-15T12:00:00+00:00\n"
+"PO-Revision-Date: 2025-05-24 20:25-0400\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
+"X-Domain: camper-booking\n"
+
+#: camper-booking.php:163 camper-booking.php:164 inc/post-type.php:44
+msgid "Booking"
+msgstr "Reserva"
+
+#: camper-booking.php:174 camper-booking.php:175
+msgid "All Bookings"
+msgstr "Todas las Reservas"
+
+#: camper-booking.php:185 inc/post-type.php:47
+msgid "Add New Booking"
+msgstr "Añadir Nueva Reserva"
+
+#: camper-booking.php:186 inc/post-type.php:46
+msgid "Add New"
+msgstr "Añadir Nueva"
+
+#: camper-booking.php:196 camper-booking.php:197
+msgid "Calendar"
+msgstr "Calendario"
+
+#: camper-booking.php:207 camper-booking.php:208
+msgid "Options"
+msgstr "Opciones"
+
+#: inc/post-type.php:43 inc/post-type.php:45
+msgid "Bookings"
+msgstr "Reservas"
+
+#: inc/post-type.php:48
+msgid "Edit Booking"
+msgstr "Editar Reserva"
+
+#: inc/post-type.php:49
+msgid "New Booking"
+msgstr "Nueva Reserva"
+
+#: inc/post-type.php:50
+msgid "View Booking"
+msgstr "Ver Reserva"
+
+#: inc/post-type.php:51
+msgid "Search Bookings"
+msgstr "Buscar Reservas"
+
+#: inc/post-type.php:52
+msgid "No bookings found"
+msgstr "No se encontraron reservas"
+
+#: inc/post-type.php:53
+msgid "No bookings found in Trash"
+msgstr "No se encontraron reservas en la Papelera"
+
+#: public/shortcode.php:59 public/shortcode.php:83
+msgid "Booking Dates"
+msgstr "Fechas de Reserva"
+
+#: public/shortcode.php:63
+msgid "Personal Info"
+msgstr "Información Personal"
+
+#: public/shortcode.php:71
+msgid "Payment & Confirmation"
+msgstr "Pago y Confirmación"
+
+#: public/shortcode.php:87
+msgid "Select the booking dates"
+msgstr "Selecciona las fechas de reserva"
+
+#: public/shortcode.php:89
+msgid "You can click this field to generate a calendar"
+msgstr "Puedes hacer clic en este campo para generar un calendario"
+
+#: public/shortcode.php:93 public/shortcode.php:126 public/shortcode.php:159
+msgid "Next"
+msgstr "Siguiente"
+
+#: public/shortcode.php:101
+msgid "Personal Information"
+msgstr "Información Personal"
+
+#: public/shortcode.php:105
+msgid "Full Name"
+msgstr "Nombre Completo"
+
+#: public/shortcode.php:109
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#: public/shortcode.php:113
+msgid "Phone"
+msgstr "Teléfono"
+
+#: public/shortcode.php:118 public/shortcode.php:151 public/shortcode.php:177
+msgid "Previous"
+msgstr "Anterior"
+
+#: public/shortcode.php:134
+msgid "Select Camper"
+msgstr "Seleccionar Autocaravana"
+
+#: public/shortcode.php:167
+msgid "Make your Payment"
+msgstr "Realizar tu Pago"
+
+#: public/shortcode.php:178
+msgid "Make Payment"
+msgstr "Realizar Pago"

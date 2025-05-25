@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: Camper Booking
  * Plugin URI: https://robertochoaweb.com/casos/camper-booking/
@@ -15,19 +16,20 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 // Plugin constants.
-define( 'CAMPER_BOOKING_VERSION', '1.0.0' );
-define( 'CAMPER_BOOKING_PLUGIN_NAME', 'Camper Booking' );
-define( 'CAMPER_BOOKING_TEXT_DOMAIN', CAMPER_BOOKING_TEXT_DOMAIN );
+define('CAMPER_BOOKING_VERSION', '1.0.0');
+define('CAMPER_BOOKING_PLUGIN_NAME', 'Camper Booking');
+define('CAMPER_BOOKING_TEXT_DOMAIN', 'camper-booking');
 
 /**
  * CamperBooking Main Class
  */
-class CamperBooking {
+class CamperBooking
+{
 
 
     /**
@@ -35,11 +37,12 @@ class CamperBooking {
      *
      * @return void
      */
-    public function __construct() {
-        add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
-        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
-        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_public_scripts' ) );
-        add_action( 'init', array( $this, 'load_textdomain' ) );
+    public function __construct()
+    {
+        add_action('admin_menu', array($this, 'add_admin_menu'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_public_scripts'));
+        add_action('init', array($this, 'load_textdomain'));
     }
 
     /**
@@ -47,11 +50,12 @@ class CamperBooking {
      *
      * @return void
      */
-    public function load_textdomain() {
+    public function load_textdomain()
+    {
         load_plugin_textdomain(
             CAMPER_BOOKING_TEXT_DOMAIN,
             false,
-            dirname( plugin_basename( __FILE__ ) ) . '/lang/'
+            dirname(plugin_basename(__FILE__)) . '/lang/'
         );
     }
 
@@ -60,7 +64,8 @@ class CamperBooking {
      *
      * @return void
      */
-    public function enqueue_admin_scripts() {
+    public function enqueue_admin_scripts()
+    {
         wp_enqueue_style(
             'air-datepicker-css',
             'https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.css',
@@ -71,8 +76,8 @@ class CamperBooking {
 
         wp_enqueue_style(
             'camper-booking-css',
-            plugin_dir_url( __FILE__ ) . 'assets/css/admin-camper-booking.css',
-            array( 'air-datepicker-css' ),
+            plugin_dir_url(__FILE__) . 'assets/css/admin-camper-booking.css',
+            array('air-datepicker-css'),
             CAMPER_BOOKING_VERSION,
             'all'
         );
@@ -82,15 +87,15 @@ class CamperBooking {
             'https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.js',
             array(),
             CAMPER_BOOKING_VERSION,
-            array( 'in_footer' => true )
+            array('in_footer' => true)
         );
 
         wp_enqueue_script(
             'camper-booking-js',
-            plugin_dir_url( __FILE__ ) . 'assets/js/admin-camper-booking.js',
-            array( 'air-datepicker-js' ),
+            plugin_dir_url(__FILE__) . 'assets/js/admin-camper-booking.js',
+            array('air-datepicker-js'),
             CAMPER_BOOKING_VERSION,
-            array( 'in_footer' => true )
+            array('in_footer' => true)
         );
     }
 
@@ -99,7 +104,8 @@ class CamperBooking {
      *
      * @return void
      */
-    public function enqueue_public_scripts() {
+    public function enqueue_public_scripts()
+    {
         wp_enqueue_style(
             'air-datepicker-css',
             'https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.css',
@@ -110,8 +116,8 @@ class CamperBooking {
 
         wp_enqueue_style(
             'camper-booking-css',
-            plugin_dir_url( __FILE__ ) . 'assets/css/camper-booking.css',
-            array( 'air-datepicker-css' ),
+            plugin_dir_url(__FILE__) . 'assets/css/camper-booking.css',
+            array('air-datepicker-css'),
             CAMPER_BOOKING_VERSION,
             'all'
         );
@@ -121,15 +127,15 @@ class CamperBooking {
             'https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.min.js',
             array(),
             CAMPER_BOOKING_VERSION,
-            array( 'in_footer' => true )
+            array('in_footer' => true)
         );
 
         wp_enqueue_script(
             'camper-booking-js',
-            plugin_dir_url( __FILE__ ) . 'assets/js/camper-booking.js',
-            array( 'air-datepicker-js' ),
+            plugin_dir_url(__FILE__) . 'assets/js/camper-booking.js',
+            array('air-datepicker-js'),
             CAMPER_BOOKING_VERSION,
-            array( 'in_footer' => true )
+            array('in_footer' => true)
         );
     }
 
@@ -138,13 +144,14 @@ class CamperBooking {
      *
      * @return void
      */
-    public function add_admin_menu() {
+    public function add_admin_menu()
+    {
         add_menu_page(
-            esc_html__( 'Booking', CAMPER_BOOKING_TEXT_DOMAIN ),
-            esc_html__( 'Booking', CAMPER_BOOKING_TEXT_DOMAIN ),
+            esc_html__('Booking', CAMPER_BOOKING_TEXT_DOMAIN),
+            esc_html__('Booking', CAMPER_BOOKING_TEXT_DOMAIN),
             'manage_options',
             'camper-booking',
-            array( $this, 'admin_page' ),
+            array($this, 'admin_page'),
             'dashicons-calendar-alt',
             7
         );
@@ -152,8 +159,8 @@ class CamperBooking {
         // Add submenu for all bookings.
         add_submenu_page(
             'camper-booking',
-            esc_html__( 'All Bookings', CAMPER_BOOKING_TEXT_DOMAIN ),
-            esc_html__( 'All Bookings', CAMPER_BOOKING_TEXT_DOMAIN ),
+            esc_html__('All Bookings', CAMPER_BOOKING_TEXT_DOMAIN),
+            esc_html__('All Bookings', CAMPER_BOOKING_TEXT_DOMAIN),
             'manage_options',
             'edit.php?post_type=booking',
             array()
@@ -162,8 +169,8 @@ class CamperBooking {
         // Add submenu for new booking.
         add_submenu_page(
             'camper-booking',
-            esc_html__( 'Add New Booking', CAMPER_BOOKING_TEXT_DOMAIN ),
-            esc_html__( 'Add New', CAMPER_BOOKING_TEXT_DOMAIN ),
+            esc_html__('Add New Booking', CAMPER_BOOKING_TEXT_DOMAIN),
+            esc_html__('Add New', CAMPER_BOOKING_TEXT_DOMAIN),
             'manage_options',
             'post-new.php?post_type=booking',
             array()
@@ -171,20 +178,20 @@ class CamperBooking {
 
         add_submenu_page(
             'camper-booking',
-            esc_html__( 'Calendar', CAMPER_BOOKING_TEXT_DOMAIN ),
-            esc_html__( 'Calendar', CAMPER_BOOKING_TEXT_DOMAIN ),
+            esc_html__('Calendar', CAMPER_BOOKING_TEXT_DOMAIN),
+            esc_html__('Calendar', CAMPER_BOOKING_TEXT_DOMAIN),
             'manage_options',
             'camper-calendar',
-            array( $this, 'calendar_page' ),
+            array($this, 'calendar_page'),
         );
 
         add_submenu_page(
             'camper-booking',
-            esc_html__( 'Options', CAMPER_BOOKING_TEXT_DOMAIN ),
-            esc_html__( 'Options', CAMPER_BOOKING_TEXT_DOMAIN ),
+            esc_html__('Options', CAMPER_BOOKING_TEXT_DOMAIN),
+            esc_html__('Options', CAMPER_BOOKING_TEXT_DOMAIN),
             'manage_options',
             'camper-options',
-            array( $this, 'options_page' ),
+            array($this, 'options_page'),
         );
     }
 
@@ -193,12 +200,13 @@ class CamperBooking {
      *
      * @return void
      */
-    public function options_page() {
-		?>
+    public function options_page()
+    {
+?>
         <div class="wrap">
-            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         </div>
-		<?php
+    <?php
     }
 
     /**
@@ -206,12 +214,13 @@ class CamperBooking {
      *
      * @return void
      */
-    public function admin_page() {
-		?>
+    public function admin_page()
+    {
+    ?>
         <div class="wrap">
-            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         </div>
-		<?php
+    <?php
     }
 
     /**
@@ -219,16 +228,17 @@ class CamperBooking {
      *
      * @return void
      */
-    public function calendar_page() {
-		?>
+    public function calendar_page()
+    {
+    ?>
         <div class="wrap">
-            <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         </div>
-		<?php
+<?php
     }
 }
 
 new CamperBooking();
 
-require_once plugin_dir_path( __FILE__ ) . 'inc/post-type.php';
-require_once plugin_dir_path( __FILE__ ) . 'public/shortcode.php';
+require_once plugin_dir_path(__FILE__) . 'inc/post-type.php';
+require_once plugin_dir_path(__FILE__) . 'public/shortcode.php';

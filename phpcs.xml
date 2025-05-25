@@ -20,12 +20,13 @@
 	<!-- Rules -->
 	<rule ref="WordPress">
 		<!-- Exclude rules -->
-		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
-		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax" />
 		<exclude name="Generic.Files.LineLength.MaxExceeded" />
 		<exclude name="Generic.Files.LineLength.TooLong" />
 		<exclude name="Generic.Functions.CallTimePassByReference" />
-		<exclude name="Generic.Arrays.DisallowShortArraySyntax" />
+		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
+		<exclude name="Squiz.Commenting.FileComment.SpacingAfterOpen" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
 	</rule>
 
 	<!-- Allow . in hook names -->
