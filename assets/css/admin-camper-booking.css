@@ -1,0 +1,145 @@
+.camper-booking-options-wrapper {
+  margin-top: 2rem;
+  display: block;
+}
+.camper-booking-options-list {
+  align-items: center;
+  border-bottom: 1px solid #dee2e6;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: flex-start;
+  margin: 0;
+  padding-left: 10px;
+  width: 100%;
+}
+.camper-booking-options-list li {
+  margin: 0;
+}
+.camper-booking-options-list .camper-booking-option-item {
+  background: #a8dadc;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #dee2e6;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 10px 40px;
+  text-align: center;
+  text-decoration: none;
+}
+.camper-booking-options-list .camper-booking-option-item:hover {
+  background: #000000;
+  color: #ffffff;
+}
+.camper-booking-options-list .camper-booking-option-item.active {
+  background: #000000;
+  color: #ffffff;
+}
+.camper-booking-options-panels .camper-booking-option-panel {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: -1px;
+  padding: 0 20px 20px;
+}
+.camper-booking-options-panels .camper-booking-option-panel .button-primary {
+  margin-top: 20px;
+}
+.camper-booking-options-panels .hidden-tab {
+  display: none;
+}
+.form-group {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.form-group small {
+  margin-top: 5px;
+  display: block;
+  width: 100%;
+}
+.form-group label {
+  min-width: 150px;
+}
+.form-group .input-group {
+  width: 100%;
+}
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="url"],
+.form-group input[type="number"],
+.form-group textarea {
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  color: #000000;
+  font-size: 14px;
+  max-width: 600px;
+  padding: 5px;
+  width: 100%;
+}
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="url"]:focus,
+.form-group input[type="number"]:focus,
+.form-group textarea:focus {
+  border-color: #a8dadc;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.form-group-checkbox {
+  flex-wrap: wrap;
+}
+.form-group-checkbox input[type="checkbox"] {
+  width: auto;
+}
+.form-group-checkbox label {
+  flex: 0 0 80%;
+  margin-right: 10px;
+}
+.form-group-checkbox small {
+  flex: 0 0 100%;
+}
+.form-group-textarea {
+  align-items: flex-start;
+  flex-flow: column;
+}
+.feature-row {
+  align-items: center;
+  margin-bottom: 15px;
+}
+.feature-row input[type="text"],
+.feature-row input[type="password"],
+.feature-row input[type="url"],
+.feature-row input[type="number"],
+.feature-row textarea {
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  color: #000000;
+  font-size: 14px;
+  margin-right: 5px;
+  max-width: 600px;
+  padding: 5px;
+  width: 100%;
+}
+.feature-row input[type="text"]:focus,
+.feature-row input[type="password"]:focus,
+.feature-row input[type="url"]:focus,
+.feature-row input[type="number"]:focus,
+.feature-row textarea:focus {
+  border-color: #a8dadc;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.feature-row .button {
+  align-items: center !important;
+  display: inline-flex !important;
+  justify-content: center !important;
+  min-height: 38px;
+  vertical-align: middle !important;
+}
+.button-add-feature {
+  margin-top: 1rem !important;
+}

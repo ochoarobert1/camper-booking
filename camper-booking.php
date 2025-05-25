@@ -32,6 +32,7 @@ class CamperBooking
 {
 
 
+
     /**
      * Method __construct
      *
@@ -39,7 +40,7 @@ class CamperBooking
      */
     public function __construct()
     {
-        add_action('admin_menu', array($this, 'add_admin_menu'));
+        add_action('admin_menu', array($this, 'add_admin_menu'), 10);
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_public_scripts'));
         add_action('init', array($this, 'load_textdomain'));
@@ -96,6 +97,15 @@ class CamperBooking
             array('air-datepicker-js'),
             CAMPER_BOOKING_VERSION,
             array('in_footer' => true)
+        );
+
+        wp_localize_script(
+            'camper-booking-js',
+            'camperBooking',
+            array(
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'nonce'   => wp_create_nonce('camper_booking_save_general_options'),
+            )
         );
     }
 
@@ -184,29 +194,6 @@ class CamperBooking
             'camper-calendar',
             array($this, 'calendar_page'),
         );
-
-        add_submenu_page(
-            'camper-booking',
-            esc_html__('Options', CAMPER_BOOKING_TEXT_DOMAIN),
-            esc_html__('Options', CAMPER_BOOKING_TEXT_DOMAIN),
-            'manage_options',
-            'camper-options',
-            array($this, 'options_page'),
-        );
-    }
-
-    /**
-     * Method options_page
-     *
-     * @return void
-     */
-    public function options_page()
-    {
-?>
-        <div class="wrap">
-            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-        </div>
-    <?php
     }
 
     /**
@@ -216,7 +203,7 @@ class CamperBooking
      */
     public function admin_page()
     {
-    ?>
+?>
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         </div>
@@ -241,4 +228,6 @@ class CamperBooking
 new CamperBooking();
 
 require_once plugin_dir_path(__FILE__) . 'inc/post-type.php';
+require_once plugin_dir_path(__FILE__) . 'inc/metaboxes.php';
 require_once plugin_dir_path(__FILE__) . 'public/shortcode.php';
+require_once plugin_dir_path(__FILE__) . 'admin/options.php';
