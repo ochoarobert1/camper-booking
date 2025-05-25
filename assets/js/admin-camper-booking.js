@@ -62,4 +62,40 @@ jQuery(document).on("ready", function () {
       },
     });
   });
+
+  // Media uploader handler
+  jQuery(document).on("click", ".upload-icon", function (e) {
+    e.preventDefault();
+    var button = jQuery(this);
+    var iconUrl = button.siblings(".icon-url");
+    var preview = button.siblings(".icon-preview");
+
+    var frame = wp.media({
+      title: "Select or Upload Icon",
+      button: {
+        text: "Use this icon",
+      },
+      multiple: false,
+    });
+
+    frame.on("select", function () {
+      var attachment = frame.state().get("selection").first().toJSON();
+      iconUrl.val(attachment.url);
+      preview.attr("src", attachment.url).show();
+    });
+
+    frame.open();
+  });
+
+  // Add feature row
+  jQuery("#add_feature").on("click", function () {
+    var template = document.getElementById("feature-row-template");
+    var clone = template.content.cloneNode(true);
+    jQuery(".features-container").append(clone);
+  });
+
+  // Remove feature row
+  jQuery(document).on("click", ".remove-feature", function () {
+    jQuery(this).closest(".feature-row").remove();
+  });
 });
