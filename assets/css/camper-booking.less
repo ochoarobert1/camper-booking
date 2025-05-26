@@ -29,26 +29,54 @@
   margin: 0 auto;
   padding: 1rem;
 
+  @media screen and (max-width: 767px) {
+    padding: 0;
+  }
+
   .hidden {
     display: none;
   }
 
   .camper-form {
     &-main-wrapper {
-      .flex(flex-start, justify-content);
+      .flex(flex-start, space-between);
       gap: 2rem;
       padding: 1rem;
       width: 100%;
+
+      @media screen and (max-width: 991px) {
+        flex-flow: column;
+      }
+
+      @media screen and (max-width: 414px) {
+        padding: 0;
+      }
     }
 
     &-steps-container {
-      flex: 0 0 60%;
-      max-width: 60%;
+      flex: 0 0 72%;
+      max-width: 72%;
+
+      @media screen and (max-width: 991px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+      }
     }
 
     &-aside-container {
-      flex: 0 0 40%;
-      max-width: 40%;
+      border-left: 1px solid @border-color;
+      flex: 0 0 28%;
+      max-width: 28%;
+      padding-left: 2rem;
+
+      @media screen and (max-width: 991px) {
+        border-left: none;
+        padding-left: 0;
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+      }
     }
   }
 
@@ -234,6 +262,19 @@
   .camper-booking-step-item {
     font-size: 0.9rem;
 
+    @media screen and (max-width: 767px) {
+      align-items: center;
+      display: flex;
+      flex-flow: column;
+      justify-content: flex-start;
+      padding: 0 0.5rem;
+      text-align: center;
+    }
+
+    @media screen and (max-width: 367px) {
+      padding: 0;
+    }
+
     .camper-booking-step-icon {
       .size(30px);
       display: inline-flex;
@@ -242,6 +283,12 @@
       align-items: center;
       justify-content: center;
       margin: 0 5px;
+    }
+
+    .camper-booking-step-text {
+      @media screen and (max-width: 367px) {
+        display: none;
+      }
     }
   }
 
@@ -257,13 +304,23 @@
   .flex(flex-start, space-between);
   flex-wrap: wrap;
 
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
+
   .camper-radio-item {
+    border-radius: 10px;
+    border: 1px solid @border-color;
     flex: 0 0 32%;
     max-width: 32%;
-    text-align: center;
-    border: 1px solid gainsboro;
-    border-radius: 10px;
     overflow: hidden;
+    text-align: center;
+
+    @media screen and (max-width: 767px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+      width: 100%;
+    }
 
     .camper-image {
       width: 100%;
