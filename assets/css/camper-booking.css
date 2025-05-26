@@ -25,6 +25,23 @@
 .camper-booking-form-step .camper-form-item-wrapper {
   padding: 1rem 0;
 }
+.camper-booking-form-step .camper-form-item-wrapper footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.camper-booking-form-step .camper-form-item-wrapper footer .btn-secondary {
+  background: #d3d3d3;
+  border-color: #d3d3d3;
+  color: #000000;
+  font-weight: 600;
+}
+.camper-booking-form-step .camper-form-item-wrapper footer .btn-primary {
+  background: #a8dadc;
+  border-color: #a8dadc;
+  color: #000000;
+  font-weight: 600;
+}
 .camper-booking-form-step .step-header h2 {
   font-size: 1.5rem;
   font-weight: 600;
@@ -75,6 +92,9 @@
   border-radius: 8px !important;
   border: 1px solid #bdbdbd !important;
   background: #fbfbfb !important;
+}
+.camper-booking-form .form-group .error {
+  border: 1px solid red !important;
 }
 .btn {
   margin-top: 10px;
@@ -183,6 +203,9 @@
   border-radius: 10px;
   overflow: hidden;
 }
+.camper-radio-wrapper .camper-radio-item .camper-image {
+  width: 100%;
+}
 .camper-radio-wrapper .camper-radio-item span {
   font-size: 1rem;
   font-weight: 600;
@@ -194,4 +217,47 @@ small.error {
 }
 small.hidden {
   display: none;
+}
+.camper-form-aside-wrapper .camper-form-aside-step-item-header {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 10px 0;
+}
+.camper-form-aside-wrapper .camper-form-aside-step-item-header .icon {
+  align-items: center;
+  background: #a8dadc;
+  border-radius: 100%;
+  color: #000000;
+  display: inline-flex;
+  font-size: 1.1rem;
+  font-weight: 700;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+.camper-form-aside-wrapper .camper-form-aside-step-item-header .text {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.camper-form-aside-wrapper .camper-form-aside-step-item-content p {
+  margin-bottom: 0;
+}
+.camper-details .camper-details-item {
+  align-items: center;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-start;
+  margin: 15px 0;
+  padding: 0 10px;
+}
+.camper-details .camper-details-item .icon {
+  max-width: 25px;
+}
+.camper-details .camper-details-item .text p {
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: left;
+  line-height: 1.2rem;
 }
