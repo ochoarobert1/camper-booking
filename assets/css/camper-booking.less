@@ -55,6 +55,26 @@
   &-step {
     .camper-form-item-wrapper {
       padding: 1rem 0;
+
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .btn-secondary {
+          background: @lightgray;
+          border-color: @lightgray;
+          color: @black;
+          font-weight: 600;
+        }
+
+        .btn-primary {
+          background: @green;
+          border-color: @green;
+          color: @black;
+          font-weight: 600;
+        }
+      }
     }
 
     .step-header {
@@ -116,6 +136,10 @@
       border-radius: 8px !important;
       border: 1px solid #bdbdbd !important;
       background: #fbfbfb !important;
+    }
+
+    .error {
+      border: 1px solid red !important;
     }
   }
 }
@@ -241,6 +265,10 @@
     border-radius: 10px;
     overflow: hidden;
 
+    .camper-image {
+      width: 100%;
+    }
+
     span {
       font-size: 1rem;
       font-weight: 600;
@@ -258,5 +286,61 @@ small {
 
   &.hidden {
     display: none;
+  }
+}
+
+.camper-form-aside-wrapper {
+  .camper-form-aside-step-item {
+    &-header {
+      .flex(center, flex-start);
+      gap: 10px;
+      margin: 10px 0;
+
+      .icon {
+        align-items: center;
+        background: @green;
+        border-radius: 100%;
+        color: @black;
+        display: inline-flex;
+        font-size: 1.1rem;
+        font-weight: 700;
+        height: 30px;
+        justify-content: center;
+        width: 30px;
+      }
+
+      .text {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+    }
+
+    &-content {
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.camper-details {
+  .camper-details-item {
+    align-items: center;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-start;
+    margin: 15px 0;
+    padding: 0 10px;
+
+    .icon {
+      max-width: 25px;
+    }
+
+    .text p {
+      margin: 0;
+      font-size: 0.9rem;
+      text-align: left;
+      line-height: 1.2rem;
+    }
   }
 }

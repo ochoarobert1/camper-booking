@@ -58,8 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
         ? currentStep - 1
         : 1;
 
-    console.log("currentStep", currentStep);
-    console.log("targetStep", targetStep);
+    // Validate current step before proceeding
+    if (!validateStep(currentStep) && direction === "next") {
+      // Show error message if validation fails
+      return false;
+    }
 
     const currentElement = document.querySelector(`#formStep${currentStep}`);
     const targetElement = document.querySelector(`#formStep${targetStep}`);
@@ -69,6 +72,125 @@ document.addEventListener("DOMContentLoaded", function () {
       currentElement.classList.add("hidden");
       targetElement.classList.remove("hidden");
     }
+  }
+
+  function validateStep(step) {
+    let isValid = true;
+    const currentForm = document.querySelector(`#formStep${step}`);
+
+    // Step-specific validations
+    if (step === 1) {
+      // Validate date selection
+      const dateInput = document.querySelector('input[name="datetimes"]');
+      if (!dateInput.value.trim() || dateInput.value.split("-").length !== 2) {
+        dateInput.classList.add("error");
+        isValid = false;
+
+        // Create validation error message if it doesn't exist
+        let errorMsg = currentForm.querySelector(".validation-error");
+        if (!errorMsg) {
+          errorMsg = document.createElement("div");
+          errorMsg.className = "validation-error";
+          errorMsg.textContent = "Please select both start and end dates";
+          errorMsg.style.color = "red";
+          dateInput.parentNode.appendChild(errorMsg);
+        } else {
+          errorMsg.style.display = "block";
+        }
+      } else {
+        dateInput.classList.remove("error");
+        const errorMsg = currentForm.querySelector(".validation-error");
+        if (errorMsg) {
+          errorMsg.style.display = "none";
+        }
+      }
+    } else if (step === 2) {
+      // Validate personal information fields
+      const nameInput = document.querySelector("#name");
+      const emailInput = document.querySelector("#email");
+      const phoneInput = document.querySelector("#phone");
+
+      // Name validation
+      if (!nameInput.value.trim()) {
+        nameInput.classList.add("error");
+        isValid = false;
+      } else {
+        nameInput.classList.remove("error");
+      }
+
+      // Email validation with regex
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (
+        !emailInput.value.trim() ||
+        !emailRegex.test(emailInput.value.trim())
+      ) {
+        emailInput.classList.add("error");
+        isValid = false;
+      } else {
+        emailInput.classList.remove("error");
+      }
+
+      // Phone validation - basic check for now
+      if (!phoneInput.value.trim() || phoneInput.value.trim().length < 6) {
+        phoneInput.classList.add("error");
+        isValid = false;
+      } else {
+        phoneInput.classList.remove("error");
+      }
+
+      // Update personal info in sidebar if valid
+      if (isValid) {
+        document.querySelector(
+          "#personalInfo"
+        ).innerHTML = `<strong>Name:</strong> ${nameInput.value}<br>
+           <strong>Email:</strong> ${emailInput.value}<br>
+           <strong>Phone:</strong> ${phoneInput.value}`;
+      }
+    } else if (step === 3) {
+      // Validate camper selection
+      const camperSelected = document.querySelector(
+        'input[name="camper"]:checked'
+      );
+      const camperError = document.querySelector("#camperError");
+
+      if (!camperSelected) {
+        isValid = false;
+        if (camperError) {
+          camperError.classList.remove("hidden");
+        }
+      } else {
+        if (camperError) {
+          camperError.classList.add("hidden");
+        }
+
+        // Update camper selection in sidebar
+        const camperLabel = document.querySelector(
+          `label[for="${camperSelected.id}"] span`
+        ).textContent;
+        document.querySelector(
+          "#camperSelection"
+        ).innerHTML = `<strong>Selected Camper:</strong> ${camperLabel}`;
+      }
+    }
+
+    // General validation for all required fields
+    const requiredFields = currentForm.querySelectorAll("[required]");
+    requiredFields.forEach((field) => {
+      if (!field.value.trim()) {
+        field.classList.add("error");
+        isValid = false;
+      } else {
+        field.classList.remove("error");
+      }
+    });
+
+    // Show error message if validation fails
+    const errorMsg = currentForm.querySelector(".validation-error");
+    if (errorMsg) {
+      errorMsg.style.display = isValid ? "none" : "block";
+    }
+
+    return isValid;
   }
 
   function setActiveBookingStep(stepIndex) {
@@ -90,7 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("button.prev-step").forEach((btn) => {
     btn.addEventListener("click", (e) => handleStepNavigation(e, "prev"));
   });
-
   // Parse date string to Date object
   function parseDate(dateStr) {
     const parts = dateStr.trim().split("/");
@@ -132,24 +253,15 @@ document.addEventListener("DOMContentLoaded", function () {
       const date2 = parseDate(endDateStr);
 
       // Update UI with selected dates
-      //document.querySelector(".initial-day").innerHTML = startDateStr;
-      //document.querySelector(".final-day").innerHTML = endDateStr;
+      document.querySelector("#bookingDates").innerHTML =
+        "<strong>Selected Dates:</strong> " + startDateStr + "-" + endDateStr;
 
       // Calculate and display duration
       const diffTime = Math.abs(date2 - date1);
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-      if (diffDays > 8) {
-        /*document.getElementById("dateSelected").innerHTML =
-          translateArray["max_days"];*/
-      } else {
-        /*document.getElementById("dateSelected").innerHTML =
-          translateArray["date_selected_1"] +
-          diffDays +
-          translateArray["date_selected_2"];
-        //document.getElementById("daysQuantity").value = diffDays;
-        document.querySelector(".total-days").innerHTML = diffDays;*/
-      }
+      document.querySelector("#bookingDays").innerHTML =
+        "<strong>Days Quantity:</strong> " + diffDays + " days";
     },
   });
 });
