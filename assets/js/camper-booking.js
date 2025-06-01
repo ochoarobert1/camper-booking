@@ -248,6 +248,39 @@ document.addEventListener("DOMContentLoaded", function () {
       "$ " + totalPrice.toFixed(2);
   }
 
+  function processBooking() {
+    // Create XHR request
+    let formData = new FormData(document.getElementById("camperBookingForm")),
+      xhr = new XMLHttpRequest();
+
+    formData.append("action", "camper_booking");
+    formData.append("nonce", camperBooking.nonce);
+
+    xhr.open("POST", camperBooking.ajaxUrl, true);
+
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        if (response.success) {
+          // Redirect to success page
+          console.log(response);
+          //window.location.href = "/booking/success";
+        } else {
+          // Handle error
+          alert("Error processing booking: " + response.message);
+        }
+      } else {
+        console.error("Request failed: " + xhr.status);
+      }
+    };
+
+    xhr.onerror = function () {
+      console.error("Request failed");
+    };
+
+    xhr.send(formData);
+  }
+
   // Add event listeners to navigation buttons
   document.querySelectorAll("button.next-step").forEach((btn) => {
     btn.addEventListener("click", (e) => handleStepNavigation(e, "next"));
@@ -310,4 +343,17 @@ document.addEventListener("DOMContentLoaded", function () {
         "<strong>Days Quantity:</strong> " + diffDays + " days";
     },
   });
+
+  if (document.querySelector(".make-payment")) {
+    document
+      .querySelector(".make-payment")
+      .addEventListener("click", function (e) {
+        e.preventDefault();
+        if (validateStep(3)) {
+          processBooking();
+        } else {
+          alert("Please complete all required fields before proceeding.");
+        }
+      });
+  }
 });

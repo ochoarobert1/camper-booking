@@ -147,6 +147,15 @@ class CamperBooking
             CAMPER_BOOKING_VERSION,
             array('in_footer' => true)
         );
+
+        wp_localize_script(
+            'camper-booking-js',
+            'camperBooking',
+            array(
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'nonce'   => wp_create_nonce('camper_booking_process'),
+            )
+        );
     }
 
     /**
@@ -229,5 +238,6 @@ new CamperBooking();
 
 require_once plugin_dir_path(__FILE__) . 'inc/post-type.php';
 require_once plugin_dir_path(__FILE__) . 'inc/metaboxes.php';
+require_once plugin_dir_path(__FILE__) . 'inc/processor.php';
 require_once plugin_dir_path(__FILE__) . 'public/shortcode.php';
 require_once plugin_dir_path(__FILE__) . 'admin/options.php';
