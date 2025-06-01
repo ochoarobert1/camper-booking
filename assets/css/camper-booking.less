@@ -10,18 +10,35 @@
 @accordion-bg: #f8f9fa;
 @accordion-active-bg: #e9ecef;
 @accordion-active-color: #0d6efd;
+@error-color: red;
 
 // Mixins
 .flex(@align: center, @justify: center, @gap: 10px) {
-  align-items: @align;
   display: flex;
-  gap: @gap;
+  align-items: @align;
   justify-content: @justify;
+  gap: @gap;
 }
 
 .size(@width, @height: @width) {
-  height: @height;
   width: @width;
+  height: @height;
+}
+
+.circle-icon(@size: 30px, @bg: @green) {
+  .size(@size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  background: @bg;
+  color: @black;
+}
+
+.full-width() {
+  flex: 0 0 100%;
+  max-width: 100%;
+  width: 100%;
 }
 
 // Base styles
@@ -39,8 +56,7 @@
 
   .camper-form {
     &-main-wrapper {
-      .flex(flex-start, space-between);
-      gap: 2rem;
+      .flex(flex-start, space-between, 2rem);
       padding: 1rem;
       width: 100%;
 
@@ -58,9 +74,7 @@
       max-width: 72%;
 
       @media screen and (max-width: 991px) {
-        flex: 0 0 100%;
-        max-width: 100%;
-        width: 100%;
+        .full-width();
       }
     }
 
@@ -73,9 +87,7 @@
       @media screen and (max-width: 991px) {
         border-left: none;
         padding-left: 0;
-        flex: 0 0 100%;
-        max-width: 100%;
-        width: 100%;
+        .full-width();
       }
     }
   }
@@ -84,23 +96,35 @@
     .camper-form-item-wrapper {
       padding: 1rem 0;
 
+      h3 {
+        font-size: 1.2rem;
+        background: @green;
+        padding: 0.5rem 1rem;
+        margin: 1rem 0;
+      }
+
+      h4 {
+        font-size: 1.2rem;
+        border-bottom: 1px solid @border-color;
+        padding: 0.8rem 0;
+      }
+
       footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        .flex(center, space-between);
 
-        .btn-secondary {
-          background: @lightgray;
-          border-color: @lightgray;
-          color: @black;
+        .btn {
           font-weight: 600;
-        }
+          color: @black;
+          
+          &-secondary {
+            background: @lightgray;
+            border-color: @lightgray;
+          }
 
-        .btn-primary {
-          background: @green;
-          border-color: @green;
-          color: @black;
-          font-weight: 600;
+          &-primary {
+            background: @green;
+            border-color: @green;
+          }
         }
       }
     }
@@ -113,14 +137,7 @@
       }
 
       .step-number {
-        align-items: center;
-        background: @green;
-        border-radius: 100%;
-        color: @black;
-        display: inline-flex;
-        height: 35px;
-        justify-content: center;
-        width: 35px;
+        .circle-icon(35px);
       }
     }
   }
@@ -131,18 +148,15 @@
     .size(20px);
     background-size: cover !important;
 
-    &-1 {
-      background: url(../img/icon-1.png) no-repeat center center;
+    @icons: 1, 2, 3, 4;
+    .icon-loop(@i) when (@i =< length(@icons)) {
+      @icon: extract(@icons, @i);
+      &-@{icon} {
+        background: url(../img/icon-@{icon}.png) no-repeat center center;
+      }
+      .icon-loop(@i + 1);
     }
-    &-2 {
-      background: url(../img/icon-2.png) no-repeat center center;
-    }
-    &-3 {
-      background: url(../img/icon-3.png) no-repeat center center;
-    }
-    &-4 {
-      background: url(../img/icon-4.png) no-repeat center center;
-    }
+    .icon-loop(1);
   }
 
   .form-group {
@@ -155,7 +169,7 @@
       display: inline-block;
 
       .required {
-        color: red;
+        color: @error-color;
       }
     }
 
@@ -166,8 +180,8 @@
       background: #fbfbfb !important;
     }
 
-    .error {
-      border: 1px solid red !important;
+    input.error {
+      border: 1px solid @error-color !important;
     }
   }
 }
@@ -201,7 +215,6 @@
     width: 100% !important;
     text-align: left;
     background-color: @accordion-bg;
-    border: none;
     font-weight: 500;
 
     &:not(.collapsed) {
@@ -240,7 +253,7 @@
 
     &.show {
       background-color: @white !important;
-      height: auto !important ;
+      height: auto !important;
       overflow: visible !important;
     }
   }
@@ -250,8 +263,6 @@
     overflow: hidden;
   }
 }
-
-// Removed problematic mixin
 
 // Booking steps
 .camper-booking-step-container {
@@ -263,10 +274,8 @@
     font-size: 0.9rem;
 
     @media screen and (max-width: 767px) {
-      align-items: center;
-      display: flex;
+      .flex(center, flex-start, 0);
       flex-flow: column;
-      justify-content: flex-start;
       padding: 0 0.5rem;
       text-align: center;
     }
@@ -292,10 +301,8 @@
     }
   }
 
-  .active {
-    .camper-booking-step-icon {
-      border-color: @green;
-    }
+  .active .camper-booking-step-icon {
+    border-color: @green;
   }
 }
 
@@ -317,9 +324,7 @@
     text-align: center;
 
     @media screen and (max-width: 767px) {
-      flex: 0 0 100%;
-      max-width: 100%;
-      width: 100%;
+      .full-width();
     }
 
     .camper-image {
@@ -339,6 +344,12 @@
 small {
   &.error {
     display: block;
+    color: @error-color;
+    font-size: 1rem;
+  }
+
+  &.error-date {
+    border: 0;
   }
 
   &.hidden {
@@ -349,21 +360,13 @@ small {
 .camper-form-aside-wrapper {
   .camper-form-aside-step-item {
     &-header {
-      .flex(center, flex-start);
-      gap: 10px;
+      .flex(center, flex-start, 10px);
       margin: 10px 0;
 
       .icon {
-        align-items: center;
-        background: @green;
-        border-radius: 100%;
-        color: @black;
-        display: inline-flex;
+        .circle-icon();
         font-size: 1.1rem;
         font-weight: 700;
-        height: 30px;
-        justify-content: center;
-        width: 30px;
       }
 
       .text {
@@ -372,20 +375,15 @@ small {
       }
     }
 
-    &-content {
-      p {
-        margin-bottom: 0;
-      }
+    &-content p {
+      margin-bottom: 0;
     }
   }
 }
 
 .camper-details {
   .camper-details-item {
-    align-items: center;
-    display: flex;
-    gap: 15px;
-    justify-content: flex-start;
+    .flex(center, flex-start, 15px);
     margin: 15px 0;
     padding: 0 10px;
 
@@ -398,6 +396,51 @@ small {
       font-size: 0.9rem;
       text-align: left;
       line-height: 1.2rem;
+    }
+  }
+}
+
+.booking-camper-total-table {
+  tbody td {
+    &:nth-child(1) {
+      font-weight: left;
+    }
+    &:nth-child(2) {
+      text-align: center;
+    }
+    &:nth-child(3) {
+      text-align: right;
+    }
+  }
+  
+  tfoot td:nth-child(2) {
+    text-align: right;
+  }
+}
+
+.payment-methods-accordion {
+  .payment-method-item {
+    border: 1px solid @border-color;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    overflow: hidden;
+
+    .payment-method-header {
+      .flex(center, flex-start, 10px);
+      padding: 1rem;
+      background: @lightgray;
+      margin-bottom: 0.5rem;
+
+      .icon {
+        .size(30px);
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .payment-method-content {
+      padding: 0.5rem 1rem 0;
+      font-size: 0.9rem;
     }
   }
 }

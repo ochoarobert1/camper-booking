@@ -84,25 +84,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const dateInput = document.querySelector('input[name="datetimes"]');
       if (!dateInput.value.trim() || dateInput.value.split("-").length !== 2) {
         dateInput.classList.add("error");
+        document.querySelector("#errorStep1").classList.remove("hidden");
         isValid = false;
-
-        // Create validation error message if it doesn't exist
-        let errorMsg = currentForm.querySelector(".validation-error");
-        if (!errorMsg) {
-          errorMsg = document.createElement("div");
-          errorMsg.className = "validation-error";
-          errorMsg.textContent = "Please select both start and end dates";
-          errorMsg.style.color = "red";
-          dateInput.parentNode.appendChild(errorMsg);
-        } else {
-          errorMsg.style.display = "block";
-        }
       } else {
         dateInput.classList.remove("error");
-        const errorMsg = currentForm.querySelector(".validation-error");
-        if (errorMsg) {
-          errorMsg.style.display = "none";
-        }
+        document.querySelector("#errorStep1").classList.add("hidden");
+        fillStepsInfo(
+          {
+            dates: dateInput.value,
+            days: document.querySelector("#daysSelected").value,
+          },
+          1
+        );
       }
     } else if (step === 2) {
       // Validate personal information fields
@@ -145,23 +138,29 @@ document.addEventListener("DOMContentLoaded", function () {
         ).innerHTML = `<strong>Name:</strong> ${nameInput.value}<br>
            <strong>Email:</strong> ${emailInput.value}<br>
            <strong>Phone:</strong> ${phoneInput.value}`;
+        document.querySelector("#errorStep2").classList.add("hidden");
+        fillStepsInfo(
+          {
+            name: nameInput.value,
+            email: emailInput.value,
+            phone: phoneInput.value,
+          },
+          2
+        );
+      } else {
+        document.querySelector("#errorStep2").classList.remove("hidden");
       }
     } else if (step === 3) {
       // Validate camper selection
       const camperSelected = document.querySelector(
         'input[name="camper"]:checked'
       );
-      const camperError = document.querySelector("#camperError");
 
       if (!camperSelected) {
         isValid = false;
-        if (camperError) {
-          camperError.classList.remove("hidden");
-        }
+        document.querySelector("#errorStep3").classList.remove("hidden");
       } else {
-        if (camperError) {
-          camperError.classList.add("hidden");
-        }
+        document.querySelector("#errorStep3").classList.add("hidden");
 
         // Update camper selection in sidebar
         const camperLabel = document.querySelector(
@@ -170,6 +169,20 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(
           "#camperSelection"
         ).innerHTML = `<strong>Selected Camper:</strong> ${camperLabel}`;
+
+        calculateTotalPrice(
+          camperSelected.getAttribute("data-camper-price"),
+          document.querySelector("#daysSelected").value
+        );
+
+        fillStepsInfo(
+          {
+            camperName: camperSelected.getAttribute("data-camper-name"),
+            camperPrice: camperSelected.getAttribute("data-camper-price"),
+            totalPrice: document.querySelector("#total").value,
+          },
+          3
+        );
       }
     }
 
@@ -202,6 +215,37 @@ document.addEventListener("DOMContentLoaded", function () {
         step.classList.remove("active");
       }
     });
+  }
+
+  function fillStepsInfo(data, stepIndex) {
+    switch (stepIndex) {
+      case 1:
+        document.querySelector("#selectedDates").innerHTML = data.dates;
+        document.querySelector("#selectedDays").innerHTML = data.days;
+        document.querySelector("#camperDates").innerHTML =
+          data.dates + " (" + data.days + " days)";
+        break;
+      case 2:
+        document.querySelector("#selectedName").innerHTML = data.name;
+        document.querySelector("#selectedEmail").innerHTML = data.email;
+        document.querySelector("#selectedPhone").innerHTML = data.phone;
+        break;
+      case 3:
+        document.querySelector("#camperDescription").innerHTML =
+          data.camperName;
+        document.querySelector("#camperPrice").innerHTML =
+          "$ " + parseFloat(data.camperPrice).toFixed(2);
+        document.querySelector("#totalPrice").innerHTML =
+          "$ " + data.totalPrice;
+        break;
+    }
+  }
+
+  function calculateTotalPrice(camperPrice, days) {
+    const totalPrice = parseFloat(camperPrice) * parseInt(days);
+    document.querySelector("#total").value = totalPrice.toFixed(2);
+    document.querySelector("#totalPrice").innerHTML =
+      "$ " + totalPrice.toFixed(2);
   }
 
   // Add event listeners to navigation buttons
@@ -259,6 +303,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Calculate and display duration
       const diffTime = Math.abs(date2 - date1);
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+      document.querySelector("#daysSelected").value = diffDays;
 
       document.querySelector("#bookingDays").innerHTML =
         "<strong>Days Quantity:</strong> " + diffDays + " days";
