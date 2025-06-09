@@ -73,6 +73,8 @@
 .form-group input[type="password"],
 .form-group input[type="url"],
 .form-group input[type="number"],
+.form-group input[type="email"],
+.form-group select,
 .form-group textarea {
   border-radius: 4px;
   border: 1px solid #dee2e6;
@@ -86,6 +88,8 @@
 .form-group input[type="password"]:focus,
 .form-group input[type="url"]:focus,
 .form-group input[type="number"]:focus,
+.form-group input[type="email"]:focus,
+.form-group select:focus,
 .form-group textarea:focus {
   border-color: #a8dadc;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -115,6 +119,8 @@
 .feature-row input[type="password"],
 .feature-row input[type="url"],
 .feature-row input[type="number"],
+.feature-row input[type="email"],
+.feature-row select,
 .feature-row textarea {
   border-radius: 4px;
   border: 1px solid #dee2e6;
@@ -129,6 +135,8 @@
 .feature-row input[type="password"]:focus,
 .feature-row input[type="url"]:focus,
 .feature-row input[type="number"]:focus,
+.feature-row input[type="email"]:focus,
+.feature-row select:focus,
 .feature-row textarea:focus {
   border-color: #a8dadc;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -142,4 +150,32 @@
 }
 .button-add-feature {
   margin-top: 1rem !important;
+}
+.camper-booking-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.camper-booking-wrapper .camper-booking-data {
+  flex: 0 0 60%;
+  max-width: 60%;
+}
+@media screen and (max-width: 767px) {
+  .camper-booking-wrapper .camper-booking-data {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+.camper-booking-wrapper .camper-booking-calendar {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+@media screen and (max-width: 767px) {
+  .camper-booking-wrapper .camper-booking-calendar {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
 }

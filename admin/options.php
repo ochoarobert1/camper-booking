@@ -18,13 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * CamperBookingOptions
  */
 class CamperBookingOptions {
-
-
-
-
-
-
-
 	/**
 	 * Method __construct
 	 *
@@ -43,7 +36,7 @@ class CamperBookingOptions {
 	 */
 	public function add_options_page() {
 		add_submenu_page(
-			'camper-booking',
+			'edit.php?post_type=booking',
 			esc_html__( 'Options', CAMPER_BOOKING_TEXT_DOMAIN ),
 			esc_html__( 'Options', CAMPER_BOOKING_TEXT_DOMAIN ),
 			'manage_options',

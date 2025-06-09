@@ -30,6 +30,58 @@ class CamperBookingPostType
     {
         add_action('init', array($this, 'register_booking_post_type'));
         add_action('init', array($this, 'register_camper_post_type'));
+        add_filter('manage_booking_posts_columns', array($this, 'camper_booking_admin_columns_head'));
+        add_action('manage_booking_posts_custom_column', array($this, 'camper_booking_admin_columns_content'), 10, 2);
+    }
+
+    /**
+     * Method camper_booking_admin_columns_head
+     *
+     * @param $columns array
+     *
+     * @return void
+     */
+    public function camper_booking_admin_columns_head($columns)
+    {
+        unset($columns['date']);
+        $columns['camper'] = esc_html__('Camper', CAMPER_BOOKING_TEXT_DOMAIN);
+        $columns['start_date'] = esc_html__('Start Date', CAMPER_BOOKING_TEXT_DOMAIN);
+        $columns['end_date'] = esc_html__('End Date', CAMPER_BOOKING_TEXT_DOMAIN);
+        $columns['status'] = esc_html__('Status', CAMPER_BOOKING_TEXT_DOMAIN);
+        $columns['date'] = esc_html__('Date', CAMPER_BOOKING_TEXT_DOMAIN);
+
+        return $columns;
+    }
+
+    /**
+     * Method camper_booking_admin_columns_content
+     *
+     * @param $column array
+     * @param $post_id string
+     *
+     * @return void
+     */
+    public function camper_booking_admin_columns_content($column, $post_id)
+    {
+        switch ($column) {
+            case 'camper':
+                $camper_slug = get_post_meta($post_id, 'camper', true);
+                $camper = get_page_by_path($camper_slug, OBJECT, 'campers');
+                echo esc_html($camper->post_title);
+                break;
+            case 'start_date':
+                $start_date = get_post_meta($post_id, 'start_date', true);
+                echo esc_html($start_date);
+                break;
+            case 'end_date':
+                $end_date = get_post_meta($post_id, 'end_date', true);
+                echo esc_html($end_date);
+                break;
+            case 'status':
+                $status = get_post_meta($post_id, 'status', true);
+                echo esc_html($status);
+                break;
+        }
     }
 
     /**
@@ -57,13 +109,14 @@ class CamperBookingPostType
             'labels'              => $labels,
             'public'              => false,
             'show_ui'             => true,
-            'show_in_menu'        => false,
+            'show_in_menu'        => true,
             'capability_type'     => 'post',
             'hierarchical'        => false,
             'supports'            => array('title'),
             'has_archive'         => false,
             'show_in_nav_menus'   => false,
             'exclude_from_search' => true,
+            'menu_icon'           => 'dashicons-calendar',
             'menu_position'       => 5,
             'publicly_queryable'  => false,
         );
