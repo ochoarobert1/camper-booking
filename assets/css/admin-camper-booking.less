@@ -178,3 +178,32 @@
 .button-add-feature {
   margin-top: 1rem !important;
 }
+
+.camper-booking-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  .camper-booking-data {
+    flex: 0 0 60%;
+    max-width: 60%;
+
+    @media screen and (max-width: 767px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .camper-booking-calendar {
+    flex: 0 0 40%;
+    max-width: 40%;
+
+    @media screen and (max-width: 767px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin-left: 0;
+      margin-top: 20px;
+    }
+  }
+}

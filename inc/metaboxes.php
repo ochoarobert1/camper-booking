@@ -52,6 +52,15 @@ class CamperBookingMetaboxes
 			'normal',
 			'default'
 		);
+
+		add_meta_box(
+			'paymnet_booking_features',
+			esc_html__('Payment Information', CAMPER_BOOKING_TEXT_DOMAIN),
+			array($this, 'render_payment_metaboxes'),
+			'booking',
+			'normal',
+			'default'
+		);
 	}
 
 	/**
@@ -68,61 +77,94 @@ class CamperBookingMetaboxes
 		$email = get_post_meta($post->ID, 'email', true);
 		$phone = get_post_meta($post->ID, 'phone', true);
 		$days_selected = get_post_meta($post->ID, 'days_selected', true);
-		$datetimes = get_post_meta($post->ID, 'datetimes', true);
+		$start_date = get_post_meta($post->ID, 'start_date', true);
+		$end_date = get_post_meta($post->ID, 'end_date', true);
 		$camper = get_post_meta($post->ID, 'camper', true);
+?>
+		<div class="camper-booking-wrapper">
+			<div class="camper-booking-data">
+
+				<h2><?php echo esc_html_e('Personal Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
+				<div class="form-group">
+					<label for="name"><?php echo esc_html_e('Name', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+					<input type="text" id="name" name="name" value="<?php echo esc_attr($name); ?>" class="widefat" />
+				</div>
+				<div class="form-group">
+					<label for="email"><?php echo esc_html_e('Email', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+					<input type="email" id="email" name="email" value="<?php echo esc_attr($email); ?>" class="widefat" />
+				</div>
+				<div class="form-group">
+					<label for="phone"><?php echo esc_html_e('Phone', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+					<input type="text" id="phone" name="phone" value="<?php echo esc_attr($phone); ?>" class="widefat" />
+				</div>
+				<h2><?php echo esc_html_e('Date Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
+				<div class="form-group">
+					<label for="days_selected"><?php echo esc_html_e('Days Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+					<input type="number" id="days_selected" name="days_selected" value="<?php echo esc_attr($days_selected); ?>" class="widefat" />
+				</div>
+				<div class="form-group">
+					<label for="startDate"><?php echo esc_html_e('Start Date', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+					<input type="text" id="startDate" name="start-date" value="<?php echo esc_attr($start_date); ?>" class="widefat" />
+				</div>
+				<div class="form-group">
+					<label for="endDate"><?php echo esc_html_e('End Date', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+					<input type="text" id="endDate" name="end-date" value="<?php echo esc_attr($end_date); ?>" class="widefat" />
+				</div>
+				<h2><?php echo esc_html_e('Camper Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
+				<div class="form-group">
+					<label for="camper"><?php echo esc_html_e('Camper Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+					<?php $campers = get_posts(['post_type' => 'campers', 'posts_per_page' => -1]); ?>
+					<select name="camper" id="camper" class="widefat">
+						<option value=""><?php echo esc_html_e('Select a camper', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
+						<?php foreach ($campers as $camper_post) : ?>
+							<?php $price = get_post_meta($camper_post->ID, '_camper_booking_price', true); ?>
+							<?php $price = (empty($price)) ? 0 : floatval($price); ?>
+							<option value="<?php echo esc_attr($camper_post->ID); ?>" <?php selected($camper, $camper_post->post_name); ?>>
+								<?php echo esc_html($camper_post->post_title . ' - ' . number_format($price, 2, ',', '.')); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="camper-booking-calendar">
+				<h2><?php echo esc_html_e('Booking Calendar', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
+				<p><?php echo esc_html_e('This section will display the booking calendar for the selected camper.', CAMPER_BOOKING_TEXT_DOMAIN); ?></p>
+				<div id="camperBookingCalendar"></div>
+			</div>
+		</div>
+	<?php
+	}
+
+	/**
+	 * Method render_payment_metaboxes
+	 *
+	 * @param $post $post [object]
+	 *
+	 * @return void
+	 */
+	public function render_payment_metaboxes($post)
+	{
+		wp_nonce_field('camper_booking_save_details', 'camper_booking_nonce');
 		$total = get_post_meta($post->ID, 'total', true);
 		$payment_method = get_post_meta($post->ID, 'payment_method', true);
-?>
-		<h2><?php echo esc_html_e('Personal Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
-		<div class="form-group">
-			<label for="name"><?php echo esc_html_e('Name', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-			<input type="text" id="name" name="name" value="<?php echo esc_attr($name); ?>" class="widefat" />
-		</div>
-		<div class="form-group">
-			<label for="email"><?php echo esc_html_e('Email', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-			<input type="email" id="email" name="email" value="<?php echo esc_attr($email); ?>" class="widefat" />
-		</div>
-		<div class="form-group">
-			<label for="phone"><?php echo esc_html_e('Phone', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-			<input type="text" id="phone" name="phone" value="<?php echo esc_attr($phone); ?>" class="widefat" />
-		</div>
-		<h2><?php echo esc_html_e('Date Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
-		<div class="form-group">
-			<label for="days_selected"><?php echo esc_html_e('Days Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-			<input type="number" id="days_selected" name="days_selected" value="<?php echo esc_attr($days_selected); ?>" class="widefat" />
-		</div>
-		<div class="form-group">
-			<label for="datetimes"><?php echo esc_html_e('Dates Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-			<input type="text" id="datetimes" name="datetimes" value="<?php echo esc_attr($datetimes); ?>" class="widefat" />
-		</div>
-		<h2><?php echo esc_html_e('Camper Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
-		<div class="form-group">
-			<label for="camper"><?php echo esc_html_e('Camper Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-			<?php $campers = get_posts(['post_type' => 'campers', 'posts_per_page' => -1]); ?>
-			<select name="camper" id="camper" class="widefat">
-				<option value=""><?php echo esc_html_e('Select a camper', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-				<?php foreach ($campers as $camper_post) : ?>
-					<?php $price = get_post_meta($camper_post->ID, '_camper_booking_price', true); ?>
-					<?php $price = (empty($price)) ? 0 : floatval($price); ?>
-					<option value="<?php echo esc_attr($camper_post->ID); ?>" <?php selected($camper, $camper_post->post_name); ?>>
-						<?php echo esc_html($camper_post->post_title . ' - ' . number_format($price, 2, ',', '.')); ?>
-					</option>
-				<?php endforeach; ?>
-			</select>
-		</div>
-		<h2><?php echo esc_html_e('Payment Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
-		<div class="form-group">
-			<label for="total"><?php echo esc_html_e('Total Amount', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-			<input type="number" id="total" name="total" value="<?php echo esc_attr($total); ?>" class="widefat" step="0.01" min="0" />
-		</div>
-		<div class="form-group">
-			<label for="payment_method"><?php echo esc_html_e('Payment Method', CAMPER_BOOKING_TEXT_DOMAIN);	 ?></label>
-			<select name="payment_method" id="payment_method" class="widefat">
-				<option value=""><?php echo esc_html_e('Select a payment method', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-				<option value="credit_card" <?php selected($payment_method, 'credit_card'); ?>><?php echo esc_html_e('Credit Card', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-				<option value="paypal" <?php selected($payment_method, 'paypal'); ?>><?php echo esc_html_e('PayPal', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-				<option value="bank_transfer" <?php selected($payment_method, 'bank_transfer'); ?>><?php echo esc_html_e('Bank Transfer', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-			</select>
+	?>
+		<div class="camper-booking-wrapper">
+			<div class="camper-booking-payment-wrapper">
+				<h2><?php echo esc_html_e('Payment Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
+				<div class="form-group">
+					<label for="total"><?php echo esc_html_e('Total Amount', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+					<input type="number" id="total" name="total" value="<?php echo esc_attr($total); ?>" class="widefat" step="0.01" min="0" />
+				</div>
+				<div class="form-group">
+					<label for="payment_method"><?php echo esc_html_e('Payment Method', CAMPER_BOOKING_TEXT_DOMAIN);	 ?></label>
+					<select name="payment_method" id="payment_method" class="widefat">
+						<option value=""><?php echo esc_html_e('Select a payment method', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
+						<option value="credit_card" <?php selected($payment_method, 'credit_card'); ?>><?php echo esc_html_e('Credit Card', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
+						<option value="paypal" <?php selected($payment_method, 'paypal'); ?>><?php echo esc_html_e('PayPal', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
+						<option value="bank_transfer" <?php selected($payment_method, 'bank_transfer'); ?>><?php echo esc_html_e('Bank Transfer', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
+					</select>
+				</div>
+			</div>
 		</div>
 	<?php
 	}

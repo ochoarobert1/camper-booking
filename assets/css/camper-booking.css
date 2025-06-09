@@ -140,6 +140,17 @@
 .camper-booking-form .form-group input.error {
   border: 1px solid red !important;
 }
+.camper-booking-form .form-group-dates {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.camper-booking-form .form-group-dates .form-group {
+  flex: 0 0 48%;
+  max-width: 48%;
+}
 .btn {
   margin-top: 10px;
   margin-right: 10px;
@@ -272,6 +283,10 @@
   overflow: hidden;
   text-align: center;
 }
+.camper-radio-wrapper .camper-radio-item:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease-in-out;
+}
 @media screen and (max-width: 767px) {
   .camper-radio-wrapper .camper-radio-item {
     flex: 0 0 100%;
@@ -287,6 +302,10 @@
   font-weight: 600;
   margin: 10px 0;
   display: inline-block;
+}
+.camper-radio-wrapper .selected {
+  transform: scale(1.05) translateY(5px) !important;
+  box-shadow: 0 0 10px 0px #00000061;
 }
 small.error {
   display: block;
@@ -378,4 +397,7 @@ small.hidden {
 .payment-methods-accordion .payment-method-item .payment-method-content {
   padding: 0.5rem 1rem 0;
   font-size: 0.9rem;
+}
+.step-content-camper-selection {
+  padding-bottom: 2rem;
 }

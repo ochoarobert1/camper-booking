@@ -48,7 +48,8 @@ class CamperBookingProcessor
 		$phone = sanitize_text_field($_POST['phone']);
 
 		$days_selected = intval($_POST['daysSelected']);
-		$datetimes     = sanitize_text_field($_POST['datetimes']);
+		$startDate     = sanitize_text_field($_POST['start-date']);
+		$endDate       = sanitize_text_field($_POST['end-date']);
 		$camper        = sanitize_text_field($_POST['camper']);
 
 		$total          = floatval($_POST['total']);
@@ -59,7 +60,8 @@ class CamperBookingProcessor
 			'email'          => $email,
 			'phone'          => $phone,
 			'days_selected'  => $days_selected,
-			'datetimes'      => $datetimes,
+			'start_date'     => $startDate,
+			'end_date'       => $endDate,
 			'camper'         => $camper,
 			'total'          => $total,
 			'payment_method' => $payment_method,
@@ -71,7 +73,12 @@ class CamperBookingProcessor
 			wp_die();
 		}
 
-		$sent = $this->send_confirmation_email($booking_id, $data);
+		//$sent = $this->send_confirmation_email($booking_id, $data);
+		if ($booking_id) {
+			$sent = true; // Simulate email sending for now.
+		} else {
+			$sent = false;
+		}
 
 		if ($sent) {
 			wp_send_json_success(esc_html_e('Booking created successfully', CAMPER_BOOKING_TEXT_DOMAIN));

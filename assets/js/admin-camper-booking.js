@@ -1,4 +1,115 @@
-jQuery(document).on("ready", function () {
+jQuery(document).ready(function () {
+  let calendarEl = document.getElementById("camperBookingCalendar"),
+    camperBookingFullCalendar = document.getElementById(
+      "camperBookingFullCalendar"
+    ),
+    startDate = formatDateToDateTime(jQuery("#startDate").val()),
+    endDate = formatDateToDateTime(jQuery("#endDate").val());
+
+  function formatDateToDateTime(dateStr) {
+    if (!dateStr) return "";
+    try {
+      const parts = dateStr.split("/");
+      if (parts.length !== 3) return "";
+      return `${parts[2]}-${parts[1]}-${parts[0]}T00:00:00`;
+    } catch (e) {
+      console.error("Date format error:", e);
+      return "";
+    }
+  }
+
+  if (calendarEl) {
+    if (startDate && endDate) {
+      const initialDateOnly = startDate ? startDate.split("T")[0] : "";
+      var singleBookingCalendar = new FullCalendar.Calendar(calendarEl, {
+        locale: "en",
+        initialDate: initialDateOnly,
+        initialView: "dayGridMonth",
+        events: [
+          {
+            title: "Selected Booking",
+            start: startDate,
+            end: endDate,
+            display: "background",
+            color: "#A8DADC",
+          },
+        ],
+      });
+      singleBookingCalendar.render();
+    }
+  }
+
+  if (camperBookingFullCalendar) {
+    var bookingCalendar = new FullCalendar.Calendar(camperBookingFullCalendar, {
+      locale: "en",
+      initialView: "dayGridMonth",
+      events: function (info, successCallback, failureCallback) {
+        console.log(
+          "Fetching events for date range:",
+          info.startStr,
+          "to",
+          info.endStr
+        );
+        jQuery.ajax({
+          url: camperBooking.ajaxUrl,
+          type: "POST",
+          data: {
+            action: "get_camper_bookings",
+          },
+          success: function (response) {
+            console.log("AJAX response:", response);
+            if (response.success && response.data && response.data.length > 0) {
+              // Format the data to match FullCalendar's expected format
+              const formattedEvents = response.data.map((event) => {
+                // Handle both array and string formats for start/end dates
+                const startDate = Array.isArray(event.start)
+                  ? event.start[0]
+                  : event.start;
+                const endDate = Array.isArray(event.end)
+                  ? event.end[0]
+                  : event.end;
+
+                console.log("Processing event:", event);
+                console.log("Start date:", startDate, "End date:", endDate);
+
+                // Decode HTML entities in the title
+                const tempElement = document.createElement("div");
+                tempElement.innerHTML = event.title;
+                const decodedTitle = tempElement.textContent;
+
+                const formattedStart = formatDateToDateTime(startDate);
+                const formattedEnd = formatDateToDateTime(endDate);
+                console.log("Formatted dates:", formattedStart, formattedEnd);
+
+                return {
+                  title: decodedTitle,
+                  start: formattedStart,
+                  end: formattedEnd,
+                  url: event.post_id
+                    ? `${camperBooking.adminUrl}post.php?post=${event.post_id}&action=edit`
+                    : null,
+                  className: event.post_id ? "has-link" : "",
+                };
+              });
+              console.log("Formatted events:", formattedEvents);
+              successCallback(formattedEvents);
+            } else {
+              console.warn("No events found or invalid response:", response);
+              successCallback([]); // Send empty array instead of failing
+            }
+          },
+          error: function (error) {
+            console.error("AJAX error:", error);
+            failureCallback("Error connecting to server");
+          },
+        });
+      },
+      eventColor: "#A8DADC",
+      textColor: "#000000",
+    });
+    bookingCalendar.render();
+  }
+
   jQuery(".camper-booking-option-item").on("click", function () {
     if (jQuery(this).hasClass("active")) {
       return;
