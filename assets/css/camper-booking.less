@@ -115,7 +115,7 @@
         .btn {
           font-weight: 600;
           color: @black;
-          
+
           &-secondary {
             background: @lightgray;
             border-color: @lightgray;
@@ -182,6 +182,16 @@
 
     input.error {
       border: 1px solid @error-color !important;
+    }
+  }
+
+  .form-group-dates {
+    .flex(flex-start, space-between, 10px);
+    flex-wrap: wrap;
+
+    .form-group {
+      flex: 0 0 48%;
+      max-width: 48%;
     }
   }
 }
@@ -323,6 +333,11 @@
     overflow: hidden;
     text-align: center;
 
+    &:hover {
+      transform: scale(1.02);
+      transition: transform 0.2s ease-in-out;
+    }
+
     @media screen and (max-width: 767px) {
       .full-width();
     }
@@ -337,6 +352,11 @@
       margin: 10px 0;
       display: inline-block;
     }
+  }
+
+  .selected {
+    transform: scale(1.05) translateY(5px) !important;
+    box-shadow: 0 0 10px 0px #00000061;
   }
 }
 
@@ -412,7 +432,7 @@ small {
       text-align: right;
     }
   }
-  
+
   tfoot td:nth-child(2) {
     text-align: right;
   }
@@ -443,4 +463,8 @@ small {
       font-size: 0.9rem;
     }
   }
+}
+
+.step-content-camper-selection {
+  padding-bottom: 2rem;
 }

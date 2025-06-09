@@ -80,12 +80,20 @@ class CamperBookingShortcodes
                                 <h2><span class="step-number">1</span> <?php echo esc_html_e('Booking Dates', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
                             </header>
                             <div class="step-content">
-                                <div class="form-group">
-                                    <label for="datePicker"><?php echo esc_html_e('Select the booking dates', CAMPER_BOOKING_TEXT_DOMAIN); ?>: <span class="required">*</span></label>
-                                    <input id="datePicker" type="text" class="form-control" name="datetimes" class="custom-air-datepicker" />
-                                    <small><?php echo esc_html_e('You can click this field to generate a calendar', CAMPER_BOOKING_TEXT_DOMAIN); ?>.</small>
-                                    <small id="errorStep1" class="error error-date hidden"><?php echo esc_html_e('Please select both start and end dates', CAMPER_BOOKING_TEXT_DOMAIN); ?></small>
+                                <h3><?php echo esc_html_e('Select the booking dates', CAMPER_BOOKING_TEXT_DOMAIN); ?></h3>
+                                <div class="form-group-dates">
+                                    <div class="form-group">
+                                        <label for="startDate"><?php echo esc_html_e('Start Date', CAMPER_BOOKING_TEXT_DOMAIN); ?>: <span class="required">*</span></label>
+                                        <input id="startDate" type="text" autocomplete="off" class="form-control" name="start-date" class="custom-air-datepicker" />
+                                        <small id="errorDate1" class="error error-date hidden"><?php echo esc_html_e('Please select start date', CAMPER_BOOKING_TEXT_DOMAIN); ?></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="endDate"><?php echo esc_html_e('End Date', CAMPER_BOOKING_TEXT_DOMAIN); ?>: <span class="required">*</span></label>
+                                        <input id="endDate" type="text" autocomplete="off" class="form-control" name="end-date" class="custom-air-datepicker" />
+                                        <small id="errorDate2" class="error error-date hidden"><?php echo esc_html_e('Please select end date', CAMPER_BOOKING_TEXT_DOMAIN); ?></small>
+                                    </div>
                                 </div>
+                                <small><?php echo esc_html_e('You can click those fields to generate a calendar', CAMPER_BOOKING_TEXT_DOMAIN); ?>.</small>
                             </div>
                             <footer>
                                 <button type="button" class="btn btn-primary next-step" data-step="1"><?php echo esc_html_e('Next', CAMPER_BOOKING_TEXT_DOMAIN); ?></button>
@@ -98,6 +106,7 @@ class CamperBookingShortcodes
                                 <h2><span class="step-number">2</span> <?php echo esc_html_e('Personal Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
                             </header>
                             <div class="step-content">
+                                <h3><?php echo esc_html_e('Enter your personal info', CAMPER_BOOKING_TEXT_DOMAIN); ?></h3>
                                 <div class="form-group">
                                     <label for="name"><?php echo esc_html_e('Full Name', CAMPER_BOOKING_TEXT_DOMAIN); ?>: <span class="required">*</span></label>
                                     <input type="text" class="form-control" id="name" name="name" required>
@@ -124,7 +133,8 @@ class CamperBookingShortcodes
                             <header class="step-header">
                                 <h2><span class="step-number">3</span> <?php echo esc_html_e('Camper Selection', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
                             </header>
-                            <div class="step-content">
+                            <div class="step-content step-content-camper-selection">
+                                <h3><?php echo esc_html_e('Select your camper here', CAMPER_BOOKING_TEXT_DOMAIN); ?></h3>
                                 <div class="camper-radio-wrapper">
                                     <?php $arr_campers = new WP_Query(['posts_per_page' => -1, 'post_type' => 'campers', 'order' => 'ASC', 'orderby' => 'date']); ?>
                                     <?php if ($arr_campers->have_posts()) : ?>
@@ -276,10 +286,9 @@ class CamperBookingShortcodes
                                 <span class="text"><?php echo esc_html_e('Camper Selection', CAMPER_BOOKING_TEXT_DOMAIN); ?></span>
                             </header>
                             <div class="camper-form-aside-step-item-content">
-                                <p id="camperSelection"><?php echo esc_html_e('No Days Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></p>
+                                <p id="camperSelection"><?php echo esc_html_e('No Camper Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></p>
                             </div>
                         </div>
-
                     </div>
                 </aside>
             </div>

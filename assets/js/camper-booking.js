@@ -1,51 +1,65 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Date picker localization
   const dateLang = {
-    days: [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ],
-    daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-    months: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
-    monthsShort: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
-    today: "Today",
-    clear: "Clear",
-    dateFormat: "MM/dd/yyyy",
-    timeFormat: "hh:ii aa",
-    firstDay: 0,
-  };
+      days: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
+      monthsShort: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+      today: "Today",
+      clear: "Clear",
+      dateFormat: "MM/dd/yyyy",
+      timeFormat: "hh:ii aa",
+      firstDay: 0,
+    },
+    allCampers = document.querySelectorAll(".camper-radio-item");
+
+  if (allCampers) {
+    allCampers.forEach((camper) => {
+      camper.addEventListener("click", function (e) {
+        // Remove selected class from all campers
+        allCampers.forEach((item) => {
+          item.classList.remove("selected");
+        });
+        // Add selected class to the clicked camper (this)
+        this.classList.add("selected");
+      });
+    });
+  }
 
   // Handle step navigation
   function handleStepNavigation(e, direction) {
@@ -81,17 +95,33 @@ document.addEventListener("DOMContentLoaded", function () {
     // Step-specific validations
     if (step === 1) {
       // Validate date selection
-      const dateInput = document.querySelector('input[name="datetimes"]');
-      if (!dateInput.value.trim() || dateInput.value.split("-").length !== 2) {
-        dateInput.classList.add("error");
-        document.querySelector("#errorStep1").classList.remove("hidden");
+      const startDateInput = document.querySelector("#startDate");
+      const endDateInput = document.querySelector("#endDate");
+
+      if (!startDateInput.value.trim()) {
+        startDateInput.classList.add("error");
+        document.querySelector("#errorDate1").classList.remove("hidden");
         isValid = false;
       } else {
-        dateInput.classList.remove("error");
-        document.querySelector("#errorStep1").classList.add("hidden");
+        startDateInput.classList.remove("error");
+        document.querySelector("#errorDate1").classList.add("hidden");
+      }
+
+      if (!endDateInput.value.trim()) {
+        endDateInput.classList.add("error");
+        document.querySelector("#errorDate2").classList.remove("hidden");
+        isValid = false;
+      } else {
+        endDateInput.classList.remove("error");
+        document.querySelector("#errorDate2").classList.add("hidden");
+      }
+
+      if (isValid) {
+        const formattedDates =
+          startDateInput.value + " - " + endDateInput.value;
         fillStepsInfo(
           {
-            dates: dateInput.value,
+            dates: formattedDates,
             days: document.querySelector("#daysSelected").value,
           },
           1
@@ -299,50 +329,85 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-  // Initialize date picker
-  new AirDatepicker("#datePicker", {
-    range: true,
+  // Initialize date pickers
+  let endDatePicker, startDatePicker;
+
+  startDatePicker = new AirDatepicker("#startDate", {
+    range: false,
     minDate: new Date(),
-    //inline: true,
     locale: dateLang,
     dateFormat: "dd/MM/yyyy",
-    multipleDatesSeparator: " - ",
     buttons: ["today", "clear"],
+    autoClose: true,
     onSelect: function (date) {
-      if (!date) return;
-
-      const dateSelected = document.querySelector(
-        'input[name="datetimes"]'
-      ).value;
-      if (!dateSelected) return;
-
-      const dateString = dateSelected.toString().split("-");
-      if (dateString.length !== 2) {
-        /*document.getElementById("dateSelected").innerHTML =
-          translateArray["error_one_date"];*/
-        return;
+      if (date.date) {
+        const nextDay = new Date(date.date);
+        nextDay.setDate(nextDay.getDate() + 1);
+        endDatePicker.update({
+          minDate: nextDay,
+        });
+        calculateDays();
       }
-
-      // Parse start and end dates
-      const startDateStr = dateString[0].trim();
-      const endDateStr = dateString[1].trim();
-      const date1 = parseDate(startDateStr);
-      const date2 = parseDate(endDateStr);
-
-      // Update UI with selected dates
-      document.querySelector("#bookingDates").innerHTML =
-        "<strong>Selected Dates:</strong> " + startDateStr + "-" + endDateStr;
-
-      // Calculate and display duration
-      const diffTime = Math.abs(date2 - date1);
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
-      document.querySelector("#daysSelected").value = diffDays;
-
-      document.querySelector("#bookingDays").innerHTML =
-        "<strong>Days Quantity:</strong> " + diffDays + " days";
     },
   });
+
+  endDatePicker = new AirDatepicker("#endDate", {
+    range: false,
+    minDate: new Date(),
+    locale: dateLang,
+    dateFormat: "dd/MM/yyyy",
+    buttons: ["today", "clear"],
+    autoClose: true,
+    onSelect: function (date) {
+      calculateDays();
+    },
+  });
+
+  // Calculate days between selected dates
+  // Convert date from dd/MM/yyyy to yyyy-MM-ddTHH:mm:ss format
+  function formatDateToDateTime(dateStr) {
+    if (!dateStr) return "";
+    const parts = dateStr.trim().split("/");
+    return `${parts[2]}-${parts[1]}-${parts[0]}T10:00:00`;
+  }
+
+  function calculateDays() {
+    const startDateInput = document.querySelector("#startDate");
+    const endDateInput = document.querySelector("#endDate");
+
+    if (!startDateInput.value || !endDateInput.value) return;
+
+    const startDateStr = startDateInput.value.trim();
+    const endDateStr = endDateInput.value.trim();
+
+    // Convert to datetime format
+    const startDateTime = formatDateToDateTime(startDateStr);
+    const endDateTime = formatDateToDateTime(endDateStr);
+
+    // Store formatted dates in hidden fields if they exist
+    if (document.querySelector("#startDateTime")) {
+      document.querySelector("#startDateTime").value = startDateTime;
+    }
+    if (document.querySelector("#endDateTime")) {
+      document.querySelector("#endDateTime").value = endDateTime;
+    }
+
+    const date1 = parseDate(startDateStr);
+    const date2 = parseDate(endDateStr);
+
+    // Update UI with selected dates
+    document.querySelector("#bookingDates").innerHTML =
+      "<strong>Selected Dates:</strong> " + startDateStr + " - " + endDateStr;
+
+    // Calculate and display duration
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+    document.querySelector("#daysSelected").value = diffDays;
+
+    document.querySelector("#bookingDays").innerHTML =
+      "<strong>Days Quantity:</strong> " + diffDays + " days";
+  }
 
   if (document.querySelector(".make-payment")) {
     document
