@@ -10,6 +10,8 @@
  * @return void
  */
 
+use function ElementorDeps\DI\get;
+
 if (! defined('ABSPATH')) {
 	exit;
 }
@@ -19,6 +21,8 @@ if (! defined('ABSPATH')) {
  */
 class CamperBookingProcessor
 {
+
+
 
 	/**
 	 * Method __construct
@@ -73,7 +77,7 @@ class CamperBookingProcessor
 			wp_die();
 		}
 
-		//$sent = $this->send_confirmation_email($booking_id, $data);
+		$sent = $this->send_confirmation_email($booking_id, $data);
 		if ($booking_id) {
 			$sent = true; // Simulate email sending for now.
 		} else {
@@ -124,39 +128,66 @@ class CamperBookingProcessor
 	 */
 	public function send_confirmation_email($booking_id, $data)
 	{
-		/*
-		$to = $data['email'];
-		$subject = sprintf('Booking Confirmation #%d', $booking_id);
-		$headers = ['Content-Type: text/html; charset=UTF-8'];
-		$body = sprintf(
-			'<h1>Booking Confirmation</h1>
-			<p>Thank you for your booking, %s!</p>
-			<p>Your booking ID is: <strong>%d</strong></p>
-			<p>Details:</p>
-			<ul>
-				<li>Name: %s</li>
-				<li>Email: %s</li>
-				<li>Phone: %s</li>
-				<li>Days Selected: %s</li>
-				<li>Camper: %d</li>
-				<li>Total: %.2f</li>
-				<li>Payment Method: %d</li>
-			</ul>',
-			$data['name'],
-			$booking_id,
-			$data['name'],
-			$data['email'],
-			$data['phone'],
-			$data['days_selected'],
-			$data['camper'],
-			$data['total'],
-			$data['payment_method']
+		if (! $booking_id || ! $data) {
+			return false;
+		}
+
+		$logo   = get_option('camper_booking_email_logo');
+		$camper = get_page_by_path($data['camper'], OBJECT, 'campers');
+		if ($camper) {
+			$camper_name  = $camper->post_title;
+			$camper_price = get_post_meta($camper->ID, '_camper_booking_price', true);
+		}
+		$subtotal = $camper_price * (int) $data['days_selected'];
+
+		ob_start();
+		require_once plugin_dir_path(dirname(__FILE__)) . 'inc/booking-confirmation.php';
+		$body = ob_get_clean();
+		$body = str_replace(
+			[
+				'{customer_name}',
+				'{order_number}',
+				'{order_date}',
+				'{camper}',
+				'{dates}',
+				'{price}',
+				'{subtotal}',
+				'{total}',
+				'{payment_method}',
+				'{company_name}',
+				'{year}',
+				'{logo}',
+			],
+			[
+				$data['name'],
+				$booking_id,
+				gmdate('Y-m-d'),
+				$camper_name,
+				$data['start_date'] . ' - ' . $data['end_date'] . ' (' . $data['days_selected'] . ' days)',
+				number_format($camper_price, 2),
+				number_format($subtotal, 2),
+				number_format($data['total'], 2),
+				$data['payment_method'],
+				'Travel Palma',
+				gmdate('Y'),
+				$logo,
+			],
+			$body
 		);
 
-		wp_mail($to, $subject, $body, $headers);
+		$to = $data['email'];
+
+		$emailsCC  = array();
+		$emailsBCC = array(get_option('admin_email'));
+
+		$headers[] = 'Content-Type: text/html; charset=UTF-8';
+		$headers[] = 'From: ' . esc_html(get_bloginfo('name')) . ' <noreply@' . strtolower($_SERVER['SERVER_NAME']) . '>';
+		$headers[] = 'Cc: ' . join(',', $emailsCC);
+		$headers[] = 'Bcc: ' . join(',', $emailsBCC);
+
+		$subject = esc_html__('Order Confirmation', CAMPER_BOOKING_TEXT_DOMAIN);
 
 		return wp_mail($to, $subject, $body, $headers);
-		*/
 	}
 }
 
