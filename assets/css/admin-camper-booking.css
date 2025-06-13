@@ -64,7 +64,7 @@
   width: 100%;
 }
 .form-group label {
-  min-width: 150px;
+  min-width: 210px;
 }
 .form-group .input-group {
   width: 100%;
@@ -74,6 +74,7 @@
 .form-group input[type="url"],
 .form-group input[type="number"],
 .form-group input[type="email"],
+.form-group input[type="tel"],
 .form-group select,
 .form-group textarea {
   border-radius: 4px;
@@ -89,6 +90,7 @@
 .form-group input[type="url"]:focus,
 .form-group input[type="number"]:focus,
 .form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: #a8dadc;
@@ -120,6 +122,7 @@
 .feature-row input[type="url"],
 .feature-row input[type="number"],
 .feature-row input[type="email"],
+.feature-row input[type="tel"],
 .feature-row select,
 .feature-row textarea {
   border-radius: 4px;
@@ -136,6 +139,7 @@
 .feature-row input[type="url"]:focus,
 .feature-row input[type="number"]:focus,
 .feature-row input[type="email"]:focus,
+.feature-row input[type="tel"]:focus,
 .feature-row select:focus,
 .feature-row textarea:focus {
   border-color: #a8dadc;
@@ -178,4 +182,26 @@
     margin-left: 0;
     margin-top: 20px;
   }
+}
+.booking-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #4b4b4b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+.booking-status-canceled {
+  background: #ff0101;
+}
+.booking-status-failed {
+  background: #a10101;
+}
+.booking-status-completed {
+  background: #017701;
+}
+.booking-status-processing {
+  background: #005c80;
 }

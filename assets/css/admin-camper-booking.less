@@ -91,7 +91,7 @@
   }
 
   label {
-    min-width: 150px;
+    min-width: 210px;
   }
 
   .input-group {
@@ -103,6 +103,7 @@
   input[type="url"],
   input[type="number"],
   input[type="email"],
+  input[type="tel"],
   select,
   textarea {
     border-radius: 4px;
@@ -149,6 +150,7 @@
   input[type="url"],
   input[type="number"],
   input[type="email"],
+  input[type="tel"],
   select,
   textarea {
     border-radius: 4px;
@@ -205,5 +207,32 @@
       margin-left: 0;
       margin-top: 20px;
     }
+  }
+}
+
+.booking-status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #4b4b4b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  display: inline-block;
+  margin-bottom: 5px;
+
+  &-canceled {
+    background: #ff0101;
+  }
+
+  &-failed {
+    background: #a10101;
+  }
+
+  &-completed {
+    background: #017701;
+  }
+
+  &-processing {
+    background: #005c80;
   }
 }
