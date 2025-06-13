@@ -86,7 +86,7 @@ jQuery(document).ready(function () {
                   start: formattedStart,
                   end: formattedEnd,
                   url: event.post_id
-                    ? `${camperBooking.adminUrl}post.php?post=${event.post_id}&action=edit`
+                    ? `jQuery{camperBooking.adminUrl}post.php?post=jQuery{event.post_id}&action=edit`
                     : null,
                   className: event.post_id ? "has-link" : "",
                 };
@@ -128,6 +128,7 @@ jQuery(document).ready(function () {
     e.preventDefault();
     let form = jQuery("#generalSettingsForm");
     let data = form.serialize();
+    data += "&nonce=" + camperBooking.nonce;
 
     jQuery.ajax({
       url: camperBooking.ajaxUrl,
@@ -153,6 +154,7 @@ jQuery(document).ready(function () {
     e.preventDefault();
     let form = jQuery("#publicSettingsForm");
     let data = form.serialize();
+    data += "&nonce=" + camperBooking.nonce;
 
     jQuery.ajax({
       url: camperBooking.ajaxUrl,
@@ -172,6 +174,26 @@ jQuery(document).ready(function () {
         alert("An error occurred while saving public settings.");
       },
     });
+  });
+
+  // Email Logo Media Uploader
+  jQuery("#uploadEmailLogo").on("click", function (e) {
+    e.preventDefault();
+
+    var frame = wp.media({
+      title: "Select or Upload Email Logo",
+      button: {
+        text: "Use this logo",
+      },
+      multiple: false,
+    });
+
+    frame.on("select", function () {
+      var attachment = frame.state().get("selection").first().toJSON();
+      jQuery("#emailLogo").val(attachment.url);
+    });
+
+    frame.open();
   });
 
   // Media uploader handler
@@ -208,5 +230,33 @@ jQuery(document).ready(function () {
   // Remove feature row
   jQuery(document).on("click", ".remove-feature", function () {
     jQuery(this).closest(".feature-row").remove();
+  });
+
+  jQuery("#saveEmailSettings").on("click", function (e) {
+    e.preventDefault();
+
+    jQuery.ajax({
+      url: camperBooking.ajaxUrl,
+      type: "POST",
+      data: {
+        action: "camper_booking_save_email_options",
+        emailLogo: jQuery("#emailLogo").val(),
+        emailNotification: jQuery("#emailNotification").val(),
+        emailSupport: jQuery("#emailSupport").val(),
+        phoneSupport: jQuery("#phoneSupport").val(),
+        bankTransferData: jQuery("#bankTransferData").val(),
+        nonce: camperBooking.nonce,
+      },
+      success: function (response) {
+        if (response.success) {
+          alert("Email settings saved successfully!");
+        } else {
+          alert("Error saving email settings: " + response.data.message);
+        }
+      },
+      error: function () {
+        alert("An error occurred while saving email settings.");
+      },
+    });
   });
 });

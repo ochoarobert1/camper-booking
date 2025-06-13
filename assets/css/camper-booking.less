@@ -46,13 +46,9 @@
   margin: 0 auto;
   padding: 1rem;
 
-  @media screen and (max-width: 767px) {
-    padding: 0;
-  }
+  @media screen and (max-width: 767px) { padding: 0; }
 
-  .hidden {
-    display: none;
-  }
+  .hidden { display: none; }
 
   .camper-form {
     &-main-wrapper {
@@ -60,22 +56,15 @@
       padding: 1rem;
       width: 100%;
 
-      @media screen and (max-width: 991px) {
-        flex-flow: column;
-      }
-
-      @media screen and (max-width: 414px) {
-        padding: 0;
-      }
+      @media screen and (max-width: 991px) { flex-flow: column; }
+      @media screen and (max-width: 414px) { padding: 0; }
     }
 
     &-steps-container {
       flex: 0 0 72%;
       max-width: 72%;
 
-      @media screen and (max-width: 991px) {
-        .full-width();
-      }
+      @media screen and (max-width: 991px) { .full-width(); }
     }
 
     &-aside-container {
@@ -136,9 +125,7 @@
         margin-bottom: 0.5rem;
       }
 
-      .step-number {
-        .circle-icon(35px);
-      }
+      .step-number { .circle-icon(35px); }
     }
   }
 
@@ -151,9 +138,7 @@
     @icons: 1, 2, 3, 4;
     .icon-loop(@i) when (@i =< length(@icons)) {
       @icon: extract(@icons, @i);
-      &-@{icon} {
-        background: url(../img/icon-@{icon}.png) no-repeat center center;
-      }
+      &-@{icon} { background: url(../img/icon-@{icon}.png) no-repeat center center; }
       .icon-loop(@i + 1);
     }
     .icon-loop(1);
@@ -168,9 +153,7 @@
       margin-bottom: 10px;
       display: inline-block;
 
-      .required {
-        color: @error-color;
-      }
+      .required { color: @error-color; }
     }
 
     .form-control {
@@ -180,9 +163,7 @@
       background: #fbfbfb !important;
     }
 
-    input.error {
-      border: 1px solid @error-color !important;
-    }
+    input.error { border: 1px solid @error-color !important; }
   }
 
   .form-group-dates {
@@ -208,15 +189,10 @@
 
   &-item {
     border-bottom: 1px solid @border-color;
-
-    &:last-child {
-      border-bottom: none;
-    }
+    &:last-child { border-bottom: none; }
   }
 
-  &-header {
-    margin: 0;
-  }
+  &-header { margin: 0; }
 
   &-button {
     .flex(center, flex-start) !important;
@@ -230,10 +206,7 @@
     &:not(.collapsed) {
       background-color: @accordion-active-bg;
       color: @accordion-active-color;
-
-      &::after {
-        transform: rotate(-180deg);
-      }
+      &::after { transform: rotate(-180deg); }
     }
 
     &:focus {
@@ -253,9 +226,7 @@
     }
   }
 
-  &-body {
-    padding: 1rem;
-  }
+  &-body { padding: 1rem; }
 
   &-collapse {
     border-top: 1px solid @border-color;
@@ -290,9 +261,7 @@
       text-align: center;
     }
 
-    @media screen and (max-width: 367px) {
-      padding: 0;
-    }
+    @media screen and (max-width: 367px) { padding: 0; }
 
     .camper-booking-step-icon {
       .size(30px);
@@ -305,15 +274,11 @@
     }
 
     .camper-booking-step-text {
-      @media screen and (max-width: 367px) {
-        display: none;
-      }
+      @media screen and (max-width: 367px) { display: none; }
     }
   }
 
-  .active .camper-booking-step-icon {
-    border-color: @green;
-  }
+  .active .camper-booking-step-icon { border-color: @green; }
 }
 
 // Radio buttons
@@ -321,9 +286,7 @@
   .flex(flex-start, space-between);
   flex-wrap: wrap;
 
-  @media screen and (max-width: 767px) {
-    flex-direction: column;
-  }
+  @media screen and (max-width: 767px) { flex-direction: column; }
 
   .camper-radio-item {
     border-radius: 10px;
@@ -338,13 +301,9 @@
       transition: transform 0.2s ease-in-out;
     }
 
-    @media screen and (max-width: 767px) {
-      .full-width();
-    }
+    @media screen and (max-width: 767px) { .full-width(); }
 
-    .camper-image {
-      width: 100%;
-    }
+    .camper-image { width: 100%; }
 
     span {
       font-size: 1rem;
@@ -367,14 +326,8 @@ small {
     color: @error-color;
     font-size: 1rem;
   }
-
-  &.error-date {
-    border: 0;
-  }
-
-  &.hidden {
-    display: none;
-  }
+  &.error-date { border: 0; }
+  &.hidden { display: none; }
 }
 
 .camper-form-aside-wrapper {
@@ -395,9 +348,7 @@ small {
       }
     }
 
-    &-content p {
-      margin-bottom: 0;
-    }
+    &-content p { margin-bottom: 0; }
   }
 }
 
@@ -407,9 +358,7 @@ small {
     margin: 15px 0;
     padding: 0 10px;
 
-    .icon {
-      max-width: 25px;
-    }
+    .icon { max-width: 25px; }
 
     .text p {
       margin: 0;
@@ -422,20 +371,12 @@ small {
 
 .booking-camper-total-table {
   tbody td {
-    &:nth-child(1) {
-      font-weight: left;
-    }
-    &:nth-child(2) {
-      text-align: center;
-    }
-    &:nth-child(3) {
-      text-align: right;
-    }
+    &:nth-child(1) { font-weight: left; }
+    &:nth-child(2) { text-align: center; }
+    &:nth-child(3) { text-align: right; }
   }
 
-  tfoot td:nth-child(2) {
-    text-align: right;
-  }
+  tfoot td:nth-child(2) { text-align: right; }
 }
 
 .payment-methods-accordion {
@@ -465,6 +406,30 @@ small {
   }
 }
 
-.step-content-camper-selection {
-  padding-bottom: 2rem;
+.step-content-camper-selection { padding-bottom: 2rem; }
+
+.shortcode-camper-details .camper-details-item { margin: 10px 0; }
+
+// Animation styles
+@keyframes checkmark {
+  0% { stroke-dashoffset: 100px; }
+  100% { stroke-dashoffset: 0px; }
+}
+
+@keyframes checkmark-circle {
+  0% { stroke-dashoffset: 480px; }
+  100% { stroke-dashoffset: 960px; }
+}
+
+@keyframes colored-circle {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.icon--order-success {
+  svg {
+    polyline { animation: checkmark 0.25s ease-in-out 0.7s backwards; }
+    circle { animation: checkmark-circle 0.6s ease-in-out backwards; }
+    circle#colored { animation: colored-circle 0.6s ease-in-out 0.7s backwards; }
+  }
 }
