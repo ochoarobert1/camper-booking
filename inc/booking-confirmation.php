@@ -1,3 +1,20 @@
+<?php
+
+/**
+ * Booking Confirmation Email
+ *
+ * @package CamperBooking
+ * @author  Robert Ochoa <contacto@robertochoaweb.com>
+ * @license GPL-2.0+
+ * @link    https://robertochoaweb.com/casos/camper-booking/
+ * @return void
+ */
+
+if (! defined('ABSPATH')) {
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -55,9 +72,9 @@
         <h2>Payment Information</h2>
         <p><strong>Payment Method:</strong> {payment_method}</p>
 
-        <p>If you have any questions about your order, please contact our customer service at {email} or call us at {phone}.</p>
+        {instructions}
 
-        <p>Thank you for shopping with us!</p>
+        <p>If you have any questions about your order, please contact our customer service at {email} or call us at {phone}.</p>
 
         <p>Sincerely,<br>
             {company_name} Team</p>

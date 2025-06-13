@@ -4,7 +4,7 @@
  * CamperBookingOptions
  *
  * @package CamperBooking
- * @author  Robert Ochoa <ochoa.robert1@gmail.com>
+ * @author  Robert Ochoa <contacto@robertochoaweb.com>
  * @license GPL-2.0+
  * @link    https://robertochoaweb.com/casos/camper-booking/
  * @return void

@@ -290,15 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     xhr.onload = function () {
       if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        if (response.success) {
-          // Redirect to success page
-          console.log(response);
-          //window.location.href = "/booking/success";
-        } else {
-          // Handle error
-          alert("Error processing booking: " + response.message);
-        }
+        window.location.href = camperBooking.thanksUrl;
       } else {
         console.error("Request failed: " + xhr.status);
       }

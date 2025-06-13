@@ -4,28 +4,30 @@
  * CamperBookingMetaboxes
  *
  * @package CamperBooking
- * @author  Robert Ochoa <ochoa.robert1@gmail.com>
+ * @author  Robert Ochoa <contacto@robertochoaweb.com>
  * @license GPL-2.0+
  * @link    https://robertochoaweb.com/casos/camper-booking/
  * @return void
  */
 
-if (! defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class CamperBookingMetaboxes
-{
+/**
+ * CamperBookingMetaboxes
+ */
+class CamperBookingMetaboxes {
+
 
 	/**
 	 * Method __construct
 	 *
 	 * @return void
 	 */
-	public function __construct()
-	{
-		add_action('add_meta_boxes', array($this, 'add_metaboxes'));
-		add_action('save_post', array($this, 'save_camper_metaboxes'));
+	public function __construct() {
+         add_action( 'add_meta_boxes', array( $this, 'add_metaboxes' ) );
+		add_action( 'save_post', array( $this, 'save_camper_metaboxes' ) );
 	}
 
 	/**
@@ -33,21 +35,20 @@ class CamperBookingMetaboxes
 	 *
 	 * @return void
 	 */
-	public function add_metaboxes()
-	{
+	public function add_metaboxes() {
 		add_meta_box(
-			'camper_booking_details',
-			esc_html__('Camper Details', CAMPER_BOOKING_TEXT_DOMAIN),
-			array($this, 'render_camper_metaboxes'),
-			'campers',
-			'normal',
-			'default'
+            'camper_booking_details',
+            esc_html__( 'Camper Details', CAMPER_BOOKING_TEXT_DOMAIN ),
+            array( $this, 'render_camper_metaboxes' ),
+            'campers',
+            'normal',
+            'default'
 		);
 
 		add_meta_box(
 			'camper_booking_features',
-			esc_html__('Booking Information', CAMPER_BOOKING_TEXT_DOMAIN),
-			array($this, 'render_booking_metaboxes'),
+			esc_html__( 'Booking Information', CAMPER_BOOKING_TEXT_DOMAIN ),
+			array( $this, 'render_booking_metaboxes' ),
 			'booking',
 			'normal',
 			'default'
@@ -55,8 +56,8 @@ class CamperBookingMetaboxes
 
 		add_meta_box(
 			'paymnet_booking_features',
-			esc_html__('Payment Information', CAMPER_BOOKING_TEXT_DOMAIN),
-			array($this, 'render_payment_metaboxes'),
+			esc_html__( 'Payment Information', CAMPER_BOOKING_TEXT_DOMAIN ),
+			array( $this, 'render_payment_metaboxes' ),
 			'booking',
 			'normal',
 			'default'
@@ -66,213 +67,213 @@ class CamperBookingMetaboxes
 	/**
 	 * Method render_booking_metaboxes
 	 *
-	 * @param $post $post [object]
+	 * @param $post object
 	 *
 	 * @return void
 	 */
-	public function render_booking_metaboxes($post)
-	{
-		wp_nonce_field('camper_booking_save_details', 'camper_booking_nonce');
-		$name = get_post_meta($post->ID, 'name', true);
-		$email = get_post_meta($post->ID, 'email', true);
-		$phone = get_post_meta($post->ID, 'phone', true);
-		$days_selected = get_post_meta($post->ID, 'days_selected', true);
-		$start_date = get_post_meta($post->ID, 'start_date', true);
-		$end_date = get_post_meta($post->ID, 'end_date', true);
-		$camper = get_post_meta($post->ID, 'camper', true);
-?>
+	public function render_booking_metaboxes( $post ) {
+         wp_nonce_field( 'camper_booking_save_details', 'camper_booking_nonce' );
+		$name          = get_post_meta( $post->ID, 'name', true );
+		$email         = get_post_meta( $post->ID, 'email', true );
+		$phone         = get_post_meta( $post->ID, 'phone', true );
+		$days_selected = get_post_meta( $post->ID, 'days_selected', true );
+		$start_date    = get_post_meta( $post->ID, 'start_date', true );
+		$end_date      = get_post_meta( $post->ID, 'end_date', true );
+		$camper        = get_post_meta( $post->ID, 'camper', true );
+		?>
 		<div class="camper-booking-wrapper">
 			<div class="camper-booking-data">
-
-				<h2><?php echo esc_html_e('Personal Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
+				<h2><?php echo esc_html_e( 'Personal Information', CAMPER_BOOKING_TEXT_DOMAIN ); ?></h2>
 				<div class="form-group">
-					<label for="name"><?php echo esc_html_e('Name', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-					<input type="text" id="name" name="name" value="<?php echo esc_attr($name); ?>" class="widefat" />
+					<label for="name"><?php echo esc_html_e( 'Name', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
+					<input type="text" id="name" name="name" value="<?php echo esc_attr( $name ); ?>" class="widefat" />
 				</div>
 				<div class="form-group">
-					<label for="email"><?php echo esc_html_e('Email', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-					<input type="email" id="email" name="email" value="<?php echo esc_attr($email); ?>" class="widefat" />
+					<label for="email"><?php echo esc_html_e( 'Email', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
+					<input type="email" id="email" name="email" value="<?php echo esc_attr( $email ); ?>" class="widefat" />
 				</div>
 				<div class="form-group">
-					<label for="phone"><?php echo esc_html_e('Phone', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-					<input type="text" id="phone" name="phone" value="<?php echo esc_attr($phone); ?>" class="widefat" />
+					<label for="phone"><?php echo esc_html_e( 'Phone', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
+					<input type="text" id="phone" name="phone" value="<?php echo esc_attr( $phone ); ?>" class="widefat" />
 				</div>
-				<h2><?php echo esc_html_e('Date Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
+				<h2><?php echo esc_html_e( 'Date Information', CAMPER_BOOKING_TEXT_DOMAIN ); ?></h2>
 				<div class="form-group">
-					<label for="days_selected"><?php echo esc_html_e('Days Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-					<input type="number" id="days_selected" name="days_selected" value="<?php echo esc_attr($days_selected); ?>" class="widefat" />
-				</div>
-				<div class="form-group">
-					<label for="startDate"><?php echo esc_html_e('Start Date', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-					<input type="text" id="startDate" name="start-date" value="<?php echo esc_attr($start_date); ?>" class="widefat" />
+					<label for="days_selected"><?php echo esc_html_e( 'Days Selected', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
+					<input type="number" id="days_selected" name="days_selected" value="<?php echo esc_attr( $days_selected ); ?>" class="widefat" />
 				</div>
 				<div class="form-group">
-					<label for="endDate"><?php echo esc_html_e('End Date', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-					<input type="text" id="endDate" name="end-date" value="<?php echo esc_attr($end_date); ?>" class="widefat" />
+					<label for="startDate"><?php echo esc_html_e( 'Start Date', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
+					<input type="text" id="startDate" name="start-date" value="<?php echo esc_attr( $start_date ); ?>" class="widefat" />
 				</div>
-				<h2><?php echo esc_html_e('Camper Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
 				<div class="form-group">
-					<label for="camper"><?php echo esc_html_e('Camper Selected', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-					<?php $campers = get_posts(['post_type' => 'campers', 'posts_per_page' => -1]); ?>
+					<label for="endDate"><?php echo esc_html_e( 'End Date', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
+					<input type="text" id="endDate" name="end-date" value="<?php echo esc_attr( $end_date ); ?>" class="widefat" />
+				</div>
+				<h2><?php echo esc_html_e( 'Camper Information', CAMPER_BOOKING_TEXT_DOMAIN ); ?></h2>
+				<div class="form-group">
+					<label for="camper"><?php echo esc_html_e( 'Camper Selected', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
+					<?php
+					$campers = get_posts(
+						[
+							'post_type'      => 'campers',
+							'posts_per_page' => -1,
+						]
+					);
+					?>
 					<select name="camper" id="camper" class="widefat">
-						<option value=""><?php echo esc_html_e('Select a camper', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-						<?php foreach ($campers as $camper_post) : ?>
-							<?php $price = get_post_meta($camper_post->ID, '_camper_booking_price', true); ?>
-							<?php $price = (empty($price)) ? 0 : floatval($price); ?>
-							<option value="<?php echo esc_attr($camper_post->ID); ?>" <?php selected($camper, $camper_post->post_name); ?>>
-								<?php echo esc_html($camper_post->post_title . ' - ' . number_format($price, 2, ',', '.')); ?>
+						<option value=""><?php echo esc_html_e( 'Select a camper', CAMPER_BOOKING_TEXT_DOMAIN ); ?></option>
+						<?php foreach ( $campers as $camper_post ) : ?>
+							<?php $price = get_post_meta( $camper_post->ID, '_camper_booking_price', true ); ?>
+							<?php $price = ( empty( $price ) ) ? 0 : floatval( $price ); ?>
+							<option value="<?php echo esc_attr( $camper_post->ID ); ?>" <?php selected( $camper, $camper_post->post_name ); ?>>
+								<?php echo esc_html( $camper_post->post_title . ' - ' . number_format( $price, 2, ',', '.' ) ); ?>
 							</option>
 						<?php endforeach; ?>
 					</select>
 				</div>
 			</div>
 			<div class="camper-booking-calendar">
-				<h2><?php echo esc_html_e('Booking Calendar', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
-				<p><?php echo esc_html_e('This section will display the booking calendar for the selected camper.', CAMPER_BOOKING_TEXT_DOMAIN); ?></p>
+				<h2><?php echo esc_html_e( 'Booking Calendar', CAMPER_BOOKING_TEXT_DOMAIN ); ?></h2>
+				<p><?php echo esc_html_e( 'This section will display the booking calendar for the selected camper.', CAMPER_BOOKING_TEXT_DOMAIN ); ?></p>
 				<div id="camperBookingCalendar"></div>
 			</div>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
 	 * Method render_payment_metaboxes
 	 *
-	 * @param $post $post [object]
+	 * @param $post object
 	 *
 	 * @return void
 	 */
-	public function render_payment_metaboxes($post)
-	{
-		wp_nonce_field('camper_booking_save_details', 'camper_booking_nonce');
-		$total = get_post_meta($post->ID, 'total', true);
-		$payment_method = get_post_meta($post->ID, 'payment_method', true);
-	?>
+	public function render_payment_metaboxes( $post ) {
+         $total         = get_post_meta( $post->ID, 'total', true );
+		$payment_method = get_post_meta( $post->ID, 'payment_method', true );
+		?>
 		<div class="camper-booking-wrapper">
 			<div class="camper-booking-payment-wrapper">
-				<h2><?php echo esc_html_e('Payment Information', CAMPER_BOOKING_TEXT_DOMAIN); ?></h2>
+				<h2><?php echo esc_html_e( 'Payment Information', CAMPER_BOOKING_TEXT_DOMAIN ); ?></h2>
 				<div class="form-group">
-					<label for="total"><?php echo esc_html_e('Total Amount', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
-					<input type="number" id="total" name="total" value="<?php echo esc_attr($total); ?>" class="widefat" step="0.01" min="0" />
+					<label for="total"><?php echo esc_html_e( 'Total Amount', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
+					<input type="number" id="total" name="total" value="<?php echo esc_attr( $total ); ?>" class="widefat" step="0.01" min="0" />
 				</div>
 				<div class="form-group">
-					<label for="payment_method"><?php echo esc_html_e('Payment Method', CAMPER_BOOKING_TEXT_DOMAIN);	 ?></label>
+					<label for="payment_method"><?php echo esc_html_e( 'Payment Method', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
 					<select name="payment_method" id="payment_method" class="widefat">
-						<option value=""><?php echo esc_html_e('Select a payment method', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-						<option value="credit_card" <?php selected($payment_method, 'credit_card'); ?>><?php echo esc_html_e('Credit Card', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-						<option value="paypal" <?php selected($payment_method, 'paypal'); ?>><?php echo esc_html_e('PayPal', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
-						<option value="bank_transfer" <?php selected($payment_method, 'bank_transfer'); ?>><?php echo esc_html_e('Bank Transfer', CAMPER_BOOKING_TEXT_DOMAIN); ?></option>
+						<option value=""><?php echo esc_html_e( 'Select a payment method', CAMPER_BOOKING_TEXT_DOMAIN ); ?></option>
+						<option value="credit_card" <?php selected( $payment_method, 'credit_card' ); ?>><?php echo esc_html_e( 'Credit Card', CAMPER_BOOKING_TEXT_DOMAIN ); ?></option>
+						<option value="paypal" <?php selected( $payment_method, 'paypal' ); ?>><?php echo esc_html_e( 'PayPal', CAMPER_BOOKING_TEXT_DOMAIN ); ?></option>
+						<option value="bank_transfer" <?php selected( $payment_method, 'bank_transfer' ); ?>><?php echo esc_html_e( 'Bank Transfer', CAMPER_BOOKING_TEXT_DOMAIN ); ?></option>
 					</select>
 				</div>
 			</div>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
 	 * Method render_camper_metaboxes
 	 *
-	 * @param $post $post [object]
+	 * @param $post object
 	 *
 	 * @return void
 	 */
-	public function render_camper_metaboxes($post)
-	{
-		wp_nonce_field('camper_booking_save_details', 'camper_booking_nonce');
+	public function render_camper_metaboxes( $post ) {
+		wp_nonce_field( 'camper_booking_save_details', 'camper_booking_nonce' );
 
-		$price    = get_post_meta($post->ID, '_camper_booking_price', true);
-		$features = get_post_meta($post->ID, '_camper_booking_features', true);
+		$price    = get_post_meta( $post->ID, '_camper_booking_price', true );
+		$features = get_post_meta( $post->ID, '_camper_booking_features', true );
 
 		wp_enqueue_media();
-	?>
-		<h4><?php esc_html_e('Pricing', CAMPER_BOOKING_TEXT_DOMAIN); ?></h4>
+		?>
+		<h4><?php esc_html_e( 'Pricing', CAMPER_BOOKING_TEXT_DOMAIN ); ?></h4>
 		<div class="form-group">
-			<label for="camper_booking_price"><?php echo esc_html_e('Booking Price (per day)', CAMPER_BOOKING_TEXT_DOMAIN); ?></label>
+			<label for="camper_booking_price"><?php echo esc_html_e( 'Booking Price (per day)', CAMPER_BOOKING_TEXT_DOMAIN ); ?></label>
 			<div class="input-group">
-				<input type="number" id="camper_booking_price" name="camper_booking_price" value="<?php echo esc_attr($price); ?>" step="0.01" min="0" />
-				<small><?php echo esc_html_e('Enter price for booking this camper per day', CAMPER_BOOKING_TEXT_DOMAIN); ?></small>
+				<input type="number" id="camper_booking_price" name="camper_booking_price" value="<?php echo esc_attr( $price ); ?>" step="0.01" min="0" />
+				<small><?php echo esc_html_e( 'Enter price for booking this camper per day', CAMPER_BOOKING_TEXT_DOMAIN ); ?></small>
 			</div>
 		</div>
 
 		<hr>
 
-		<!-- Features Repeater -->
 		<div id="camper_booking_features">
-			<h4><?php esc_html_e('Features', CAMPER_BOOKING_TEXT_DOMAIN); ?></h4>
-			<p>Add icons and features for this campervan:</p>
+			<h4><?php esc_html_e( 'Features', CAMPER_BOOKING_TEXT_DOMAIN ); ?></h4>
+			<p><?php esc_html_e( 'Add icons and features for this campervan', CAMPER_BOOKING_TEXT_DOMAIN ); ?>:</p>
 
 			<div class="features-container">
 				<?php
-				if (! empty($features)) {
-					foreach ($features as $feature) {
-				?>
+				if ( ! empty( $features ) ) {
+					foreach ( $features as $feature ) {
+						?>
 						<div class="feature-row">
-							<img src="<?php echo esc_url($feature['icon']); ?>" class="icon-preview" style="max-width: 40px; max-height: 40px; margin: 0 10px; vertical-align: middle;">
-							<input type="hidden" name="feature_icon[]" class="icon-url" value="<?php echo esc_attr($feature['icon']); ?>">
-							<input type="text" name="feature_text[]" value="<?php echo esc_attr($feature['text']); ?>" placeholder="Feature description">
+							<img src="<?php echo esc_url( $feature['icon'] ); ?>" class="icon-preview" style="max-width: 40px; max-height: 40px; margin: 0 10px; vertical-align: middle;" />
+							<input type="hidden" name="feature_icon[]" class="icon-url" value="<?php echo esc_attr( $feature['icon'] ); ?>" />
+							<input type="text" name="feature_text[]" value="<?php echo esc_attr( $feature['text'] ); ?>" placeholder="Feature description" />
 							<button type="button" class="upload-icon button"><span class="dashicons dashicons-upload"></span></button>
 							<button type="button" class="remove-feature button button-danger"><span class="dashicons dashicons-remove"></span></button>
 						</div>
-				<?php
+						<?php
 					}
 				}
 				?>
 			</div>
-			<button type="button" id="add_feature" class="button button-add-feature button-primary">Add Feature</button>
+			<button type="button" id="add_feature" class="button button-add-feature button-primary"><?php esc_html_e( 'Add Feature', CAMPER_BOOKING_TEXT_DOMAIN ); ?></button>
 		</div>
 
 		<template id="feature-row-template">
 			<div class="feature-row">
-				<input type="hidden" name="feature_icon[]" class="icon-url">
-				<img src="" class="icon-preview" style="max-width: 40px; max-height: 40px; margin: 0 10px; vertical-align: middle; display: none;">
-				<input type="text" name="feature_text[]" placeholder="Feature description">
+				<input type="hidden" name="feature_icon[]" class="icon-url" />
+				<img src="" class="icon-preview" style="max-width: 40px; max-height: 40px; margin: 0 10px; vertical-align: middle; display: none;" />
+				<input type="text" name="feature_text[]" placeholder="Feature description" />
 				<button type="button" class="upload-icon button"><span class="dashicons dashicons-upload"></span></button>
 				<button type="button" class="remove-feature button"><span class="dashicons dashicons-remove"></span></button>
 			</div>
 		</template>
-<?php
+		<?php
 	}
 
 	/**
 	 * Method save_camper_metaboxes
 	 *
-	 * @param $post_id $post_id [string]
+	 * @param $post_id string
 	 *
 	 * @return void
 	 */
-	public function save_camper_metaboxes($post_id)
-	{
-		if (! isset($_POST['camper_booking_nonce']) || ! wp_verify_nonce($_POST['camper_booking_nonce'], 'camper_booking_save_details')) {
+	public function save_camper_metaboxes( $post_id ) {
+		if ( ! isset( $_POST['camper_booking_nonce'] ) || ! wp_verify_nonce( $_POST['camper_booking_nonce'], 'camper_booking_save_details' ) ) {
 			return;
 		}
 
-		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
 
-		if (! current_user_can('edit_post', $post_id)) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 
-		if (isset($_POST['camper_booking_price'])) {
-			update_post_meta($post_id, '_camper_booking_price', sanitize_text_field($_POST['camper_booking_price']));
+		if ( isset( $_POST['camper_booking_price'] ) ) {
+			update_post_meta( $post_id, '_camper_booking_price', sanitize_text_field( $_POST['camper_booking_price'] ) );
 		}
 
-		if (isset($_POST['feature_icon']) && isset($_POST['feature_text'])) {
+		if ( isset( $_POST['feature_icon'] ) && isset( $_POST['feature_text'] ) ) {
 			$features = array();
 			$icons    = $_POST['feature_icon'];
 			$texts    = $_POST['feature_text'];
 
-			for ($i = 0; $i < count($icons); $i++) {
-				if (! empty($texts[$i])) {
+			for ( $i = 0; $i < count( $icons ); $i++ ) {
+				if ( ! empty( $texts[ $i ] ) ) {
 					$features[] = array(
-						'icon' => sanitize_text_field($icons[$i]),
-						'text' => sanitize_text_field($texts[$i]),
+						'icon' => sanitize_text_field( $icons[ $i ] ),
+						'text' => sanitize_text_field( $texts[ $i ] ),
 					);
 				}
 			}
 
-			update_post_meta($post_id, '_camper_booking_features', $features);
+			update_post_meta( $post_id, '_camper_booking_features', $features );
 		}
 	}
 }

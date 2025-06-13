@@ -11,7 +11,7 @@ jQuery(document).ready(function () {
     try {
       const parts = dateStr.split("/");
       if (parts.length !== 3) return "";
-      return `jQuery{parts[2]}-jQuery{parts[1]}-jQuery{parts[0]}T00:00:00`;
+      return `${parts[2]}-${parts[1]}-${parts[0]}T00:00:00`;
     } catch (e) {
       console.error("Date format error:", e);
       return "";
@@ -241,6 +241,10 @@ jQuery(document).ready(function () {
       data: {
         action: "camper_booking_save_email_options",
         emailLogo: jQuery("#emailLogo").val(),
+        emailNotification: jQuery("#emailNotification").val(),
+        emailSupport: jQuery("#emailSupport").val(),
+        phoneSupport: jQuery("#phoneSupport").val(),
+        bankTransferData: jQuery("#bankTransferData").val(),
         nonce: camperBooking.nonce,
       },
       success: function (response) {
